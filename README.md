@@ -1,3 +1,5 @@
 # TrainerSkillsUni
 
-Repo for all the work will make it easier to share files like the video presentations and word documents etc 
+Group project for Software Engineering (Group 24)
+
+Web-site hosted [here](https://edwardbrodskiy.github.io/TrainerSkillsUni/#/)
