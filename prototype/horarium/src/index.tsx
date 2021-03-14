@@ -4,7 +4,7 @@ import './index.css'
 import * as serviceWorker from './serviceWorker'
 import { HashRouter } from 'react-router-dom'
 import './App.css'
-import { CSSReset, ChakraProvider } from "@chakra-ui/react"
+import { CSSReset, ChakraProvider } from '@chakra-ui/react'
 import Routes from './routes'
 import { createBrowserHistory } from 'history'
 
@@ -25,7 +25,7 @@ ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 )
 
 // If you want your app to work offline and load faster, you can change

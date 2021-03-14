@@ -11,7 +11,7 @@ export const Header = () => {
   const { colorMode } = useColorMode()
   const bgColor = { light: 'gray.200', dark: 'gray.700' }
   return (
-    <Box h='4rem' >
+    <Box h='4rem'>
       <Box
         zIndex={1}
         p={4}
@@ -22,17 +22,17 @@ export const Header = () => {
         right='0'
         top='0'
         borderBottomWidth='1px'
-        width='full'>
+        width='full'
+      >
         <Flex justify='space-between' align='center' w='100%' h='100%'>
-          <Flex align='center' justify='space-evenly' maxWidth='480px' >
-            <NavItem><Link to='/'>Home</Link></NavItem>
+          <Flex align='center' justify='space-evenly' maxWidth='480px'>
+            <NavItem>
+              <Link to='/'>Home</Link>
+            </NavItem>
           </Flex>
           <DarkModeToggle />
         </Flex>
-
-      </Box >
+      </Box>
     </Box>
-
-
   )
 }

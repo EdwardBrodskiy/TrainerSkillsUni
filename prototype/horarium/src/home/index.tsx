@@ -1,11 +1,21 @@
 import React from 'react'
-import { Box, Heading } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
+import { SidebarWrapper } from './components/sidebar'
+import { Calendar } from './components/calendar'
+import { CalendarEvent } from '../types'
 
+const events: CalendarEvent[] = [
+  { title: 'Lecture', color: 'tomato' },
+  { title: 'Lab', color: 'orange' },
+  { title: 'Exam', color: 'purple' },
+]
 
 export const Home = () => {
-    return (
-        <Box>
-            <Heading as='h1' mb={4} >Hello, World!</Heading>
-        </Box>
-    )
+  return (
+    <Box height='100%'>
+      <SidebarWrapper events={events}>
+        <Calendar />
+      </SidebarWrapper>
+    </Box>
+  )
 }

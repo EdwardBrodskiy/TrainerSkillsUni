@@ -15,10 +15,9 @@ const Routes = () => {
   return (
     <Box bgGradient='linear(to-r, blue.200, grey.500)'>
       <Header />
-      <Box m={4} mx={{ base: '5%', md: '10%' }} >
+      <Box>
         <Switch>
           <Route exact key='route-home' path='/' component={Home} />
-
           <Redirect from='*' to='/' /> {/* TODO: add 404 page instead */}
         </Switch>
       </Box>
