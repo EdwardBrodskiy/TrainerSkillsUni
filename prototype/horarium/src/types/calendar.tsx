@@ -14,13 +14,23 @@ export type Course = {
   events: Event[]
 }
 
+export type CalendarEventType = {
+  name: string
+  color: string
+}
+
 export type CalendarEvent = {
   title: string
   description?: string
+  type: CalendarEventType
   location: string
   start_time: string
   duration: string
-  color: string // TODO: this is temporary
+}
+
+export type PrefillEventData = {
+  type?: CalendarEventType
+  startTime?: string
 }
 
 export type AvaliabilityTable = {
