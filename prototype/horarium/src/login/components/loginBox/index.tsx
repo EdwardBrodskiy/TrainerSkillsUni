@@ -1,22 +1,22 @@
 import React, { useState } from 'react'
-import { Flex, Box, Heading, FormControl, FormLabel, Input, Button} from '@chakra-ui/react'
-import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
-import { Home } from '../../../home'
+import { Flex, Box, Heading, FormControl, FormLabel, Input, Button, Checkbox} from '@chakra-ui/react'
+import { Redirect, useHistory, Switch, useRouteMatch } from 'react-router-dom'
 
 export const LoginBox = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const history = useHistory();
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     if (username === 'ADMIN' && password ==='ADMIN') {
-      //TO DO: learn how Route works lol and redirect to Home
+      history.push("/home")
     } else {
-      alert('Invalid username or password');
-      setUsername('');
-      setPassword('');
+      alert('Invalid username or password')
+      setUsername('')
+      setPassword('')
     }
   };
 
-  return (//TO DO: reformat Code
+  return (
     <Flex width='full' align='center' justifyContent='center'>
       <Box margin={10} p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg">
         <Box textAlign="center">
@@ -42,6 +42,7 @@ export const LoginBox = () => {
                 onChange={event => setPassword(event.currentTarget.value)}
               />
             </FormControl>
+            <Checkbox>Remember Me</Checkbox>{/*TODO: Add functionality*/}
             <Button width="full" mt={4} type="submit">
               Log In
             </Button>
