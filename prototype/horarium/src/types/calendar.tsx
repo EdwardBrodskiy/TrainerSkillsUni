@@ -12,6 +12,7 @@ export type Course = {
   enroled_groups: Group[]
   shedulers: Scheduler[]
   events: Event[]
+  eventTypes: CalendarEventType[]
 }
 
 export type CalendarEventType = {

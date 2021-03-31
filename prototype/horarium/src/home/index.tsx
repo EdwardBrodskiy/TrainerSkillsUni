@@ -2,14 +2,9 @@ import React, { useState } from 'react'
 import { Box, useDisclosure } from '@chakra-ui/react'
 import { SidebarWrapper } from './components/sidebar'
 import { Calendar } from './components/calendar'
-import { CalendarEventType, PrefillEventData } from '../types'
+import { Course, PrefillEventData } from '../types'
 import { CreateEventModal } from './components/createEvent'
-
-const events: CalendarEventType[] = [
-  { name: 'Lecture', color: 'tomato' },
-  { name: 'Lab', color: 'orange' },
-  { name: 'Exam', color: 'purple' },
-]
+import store from 'store'
 
 export const Home = () => {
   const [eventData, setEventData] = useState<PrefillEventData>({})
@@ -22,9 +17,10 @@ export const Home = () => {
     setEventData(data)
     onCreateEventOpen()
   }
+  const current_course: Course = store.get('courses')[0] //TODO: add course selection and creation
   return (
     <Box height='100%'>
-      <SidebarWrapper events={events} createEvent={createEvent}>
+      <SidebarWrapper events={current_course.eventTypes} createEvent={createEvent}>
         <Calendar />
         <CreateEventModal
           isOpen={isCreateEventOpen}
