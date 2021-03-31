@@ -27,7 +27,10 @@ export const Header = () => {
         <Flex justify='space-between' align='center' w='100%' h='100%'>
           <Flex align='center' justify='space-evenly' maxWidth='480px'>
             <NavItem>
-              <Link to='/'>Home</Link>
+              <Link to='/home'>Home</Link>
+            </NavItem>
+            <NavItem>
+              <Link to='/create-course'>Create Course</Link>
             </NavItem>
           </Flex>
           <DarkModeToggle />
