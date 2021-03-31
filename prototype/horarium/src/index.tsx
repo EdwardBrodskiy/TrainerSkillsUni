@@ -7,10 +7,12 @@ import './App.css'
 import { CSSReset, ChakraProvider } from '@chakra-ui/react'
 import Routes from './routes'
 import { createBrowserHistory } from 'history'
+import { setup_local_storage } from './schema'
 
 const history = createBrowserHistory()
 
 function App() {
+  setup_local_storage()
   return (
     <ChakraProvider>
       <CSSReset />
