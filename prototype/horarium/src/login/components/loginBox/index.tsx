@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
-import { Flex, Box, Heading, FormControl, FormLabel, Input, Button, Checkbox} from '@chakra-ui/react'
-import { Redirect, useHistory, Switch, useRouteMatch } from 'react-router-dom'
+import { Flex, Box, Heading, FormControl, FormLabel, Input, Button, Checkbox, useToast } from '@chakra-ui/react'
+import { useHistory } from 'react-router-dom'
 
 export const LoginBox = () => {
-  const history = useHistory();
+  const history = useHistory()
+  const toast = useToast()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     if (username === 'ADMIN' && password ==='ADMIN') {
       history.push("/home")
     } else {
-      alert('Invalid username or password')
-      setUsername('')
-      setPassword('')
+      toast({
+        title: "Invalid Username/Password",
+        status: "error",
+        isClosable: true,
+      })
     }
   };
 
@@ -42,7 +45,7 @@ export const LoginBox = () => {
                 onChange={event => setPassword(event.currentTarget.value)}
               />
             </FormControl>
-            <Checkbox>Remember Me</Checkbox>{/*TODO: Add functionality*/}
+            <Checkbox>Remember Me</Checkbox>{/*TODO: Add functionality(Possible )*/}
             <Button width="full" mt={4} type="submit">
               Log In
             </Button>
