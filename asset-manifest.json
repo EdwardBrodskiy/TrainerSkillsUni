@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/TrainerSkillsUni/static/css/main.346fbffd.chunk.css",
-    "main.js": "/TrainerSkillsUni/static/js/main.a3c9aff4.chunk.js",
-    "main.js.map": "/TrainerSkillsUni/static/js/main.a3c9aff4.chunk.js.map",
+    "main.js": "/TrainerSkillsUni/static/js/main.dc5cf4a5.chunk.js",
+    "main.js.map": "/TrainerSkillsUni/static/js/main.dc5cf4a5.chunk.js.map",
     "runtime-main.js": "/TrainerSkillsUni/static/js/runtime-main.bf815a56.js",
     "runtime-main.js.map": "/TrainerSkillsUni/static/js/runtime-main.bf815a56.js.map",
-    "static/js/2.d02960aa.chunk.js": "/TrainerSkillsUni/static/js/2.d02960aa.chunk.js",
-    "static/js/2.d02960aa.chunk.js.map": "/TrainerSkillsUni/static/js/2.d02960aa.chunk.js.map",
+    "static/js/2.c449c402.chunk.js": "/TrainerSkillsUni/static/js/2.c449c402.chunk.js",
+    "static/js/2.c449c402.chunk.js.map": "/TrainerSkillsUni/static/js/2.c449c402.chunk.js.map",
     "index.html": "/TrainerSkillsUni/index.html",
     "static/css/main.346fbffd.chunk.css.map": "/TrainerSkillsUni/static/css/main.346fbffd.chunk.css.map",
-    "static/js/2.d02960aa.chunk.js.LICENSE.txt": "/TrainerSkillsUni/static/js/2.d02960aa.chunk.js.LICENSE.txt"
+    "static/js/2.c449c402.chunk.js.LICENSE.txt": "/TrainerSkillsUni/static/js/2.c449c402.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.bf815a56.js",
-    "static/js/2.d02960aa.chunk.js",
+    "static/js/2.c449c402.chunk.js",
     "static/css/main.346fbffd.chunk.css",
-    "static/js/main.a3c9aff4.chunk.js"
+    "static/js/main.dc5cf4a5.chunk.js"
   ]
 }
