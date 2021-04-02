@@ -49,7 +49,11 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData }: Props) => {
     location: { value: '', error: false, touched: false },
     startTime: { value: '', error: false, touched: false },
     duration: { value: '', error: false, touched: false },
-    type: { value: prefilledData.type?.name || '', error: false, touched: false },
+    type: {
+      value: prefilledData.type?.name || '',
+      error: false,
+      touched: prefilledData.type?.name !== undefined,
+    },
   }
   const [formData, setFormData] = useState<FormData>(initialState)
 
