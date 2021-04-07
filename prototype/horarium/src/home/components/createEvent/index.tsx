@@ -236,6 +236,7 @@ const is_element_invalid = (name: string, value: string, touched: boolean, value
   return false
 }
 const is_valid = (values: FormData) => {
+  //TODO: switch to use of .every
   let element: keyof FormData
   for (element in values) {
     if (values[element].error || !values[element].touched) {
