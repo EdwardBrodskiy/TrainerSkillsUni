@@ -31,7 +31,7 @@ type FormData = {
   description: FormElement
   location: FormElement
   startTime: FormElement
-  duration: FormElement
+  endTime: FormElement
   type: FormElement
 }
 
@@ -48,7 +48,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData }: Props) => {
     description: { value: '', error: false, touched: true },
     location: { value: '', error: false, touched: false },
     startTime: { value: '', error: false, touched: false },
-    duration: { value: '', error: false, touched: false },
+    endTime: { value: '', error: false, touched: false },
     type: {
       value: prefilledData.type?.name || '',
       error: false,
@@ -59,8 +59,22 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData }: Props) => {
 
   const updateElementState: React.ChangeEventHandler<InputElements> = (event) => {
     const { name, value } = event.target
-    const error = validate_element(name, value)
+    const error = is_element_invalid(name, value, true, formData)
     setFormData((prevState) => ({ ...prevState, [name]: { touched: true, value, error } }))
+    let element: keyof FormData
+    const to_update: Partial<FormData> = {}
+    for (element in formData) {
+      const is_invalid = is_element_invalid(
+        element,
+        formData[element].value,
+        formData[element].touched,
+        formData,
+      )
+      if (is_invalid !== formData[element].error) {
+        to_update[element] = { ...formData[element], error: !formData[element].error }
+      }
+    }
+    setFormData((prevState) => ({ ...prevState, ...to_update }))
   }
   const commonFormElementProps = {
     onChange: updateElementState,
@@ -127,6 +141,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData }: Props) => {
             <Input
               name='startTime'
               type='datetime-local'
+              max={formData.endTime.value}
               value={formData.startTime.value}
               isInvalid={formData.startTime.error}
               {...commonFormElementProps}
@@ -134,12 +149,13 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData }: Props) => {
           </FormControl>
 
           <FormControl>
-            <FormLabel>Duration</FormLabel>
+            <FormLabel>End Time</FormLabel>
             <Input
-              name='duration'
-              type='time'
-              value={formData.duration.value}
-              isInvalid={formData.duration.error}
+              name='endTime'
+              type='datetime-local'
+              min={formData.startTime.value}
+              value={formData.endTime.value}
+              isInvalid={formData.endTime.error}
               {...commonFormElementProps}
             />
           </FormControl>
@@ -173,7 +189,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData }: Props) => {
                     type: eventType,
                     location: formData.location.value,
                     start_time: formData.startTime.value,
-                    duration: formData.duration.value,
+                    end_time: formData.endTime.value,
                   })
                 }
                 onClose()
@@ -197,9 +213,25 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData }: Props) => {
   )
 }
 
-const validate_element = (name: string, value: string) => {
-  if (name !== 'description' && value === '') {
-    return true
+const is_element_invalid = (name: string, value: string, touched: boolean, values: FormData) => {
+  if (touched) {
+    if (name !== 'description' && value === '') {
+      return true
+    }
+    if (
+      name === 'startTime' &&
+      values.endTime.value !== '' &&
+      new Date(value) >= new Date(values.endTime.value)
+    ) {
+      return true
+    }
+    if (
+      name === 'endTime' &&
+      values.startTime.value !== '' &&
+      new Date(value) <= new Date(values.startTime.value)
+    ) {
+      return true
+    }
   }
   return false
 }

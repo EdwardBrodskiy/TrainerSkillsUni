@@ -26,7 +26,7 @@ export type CalendarEvent = {
   type: CalendarEventType
   location: string
   start_time: string
-  duration: string
+  end_time: string
 }
 
 export type PrefillEventData = {
