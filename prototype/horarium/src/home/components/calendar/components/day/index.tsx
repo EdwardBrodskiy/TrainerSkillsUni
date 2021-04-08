@@ -12,11 +12,11 @@ export const Day = ({ events, scale }: Props) => {
   const { colorMode } = useColorMode()
   const bgColor = { light: 'gray.200', dark: 'gray.700' }
 
-  const table: JSX.Element[] = new Array<JSX.Element>(9).fill(<></>).map((value, index) => {
+  const table: JSX.Element[] = new Array<JSX.Element>(24).fill(<></>).map((value, index) => {
     const events_this_hour = events
       .filter((event) => {
         const time = new Date(event.start_time)
-        return time.getHours() === index + 9
+        return time.getHours() === index
       })
       .map((event, index) => <EventCard event={event} scale={scale} />)
     return (

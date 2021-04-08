@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Grid, useColorMode } from '@chakra-ui/react'
+import { Box, Grid, HStack, useColorMode } from '@chakra-ui/react'
 import { Day } from './components/day'
 import store from 'store'
 import { Course } from '../../../types'
@@ -15,7 +15,7 @@ export const Calendar = () => {
   const current_course: Course = store.get('courses')[0]
 
   const days = week_days.map((day, index) => (
-    <Box w='100%' h='14' bg={altBgColor[colorMode]} padding='3' fontSize='20'>
+    <Box w='100%' h='14' bg={altBgColor[colorMode]} padding='3' fontSize='20' isTruncated>
       {day}
     </Box>
   ))
@@ -27,11 +27,26 @@ export const Calendar = () => {
     return <Day events={events} scale={scale} />
   })
   return (
-    <Grid templateColumns='7% repeat(7, 13%)' gap={1}>
-      <Box></Box>
-      {days}
-      <DayIndex />
-      {day_events}
-    </Grid>
+    <Box>
+      <Grid templateColumns='7% repeat(7, 13%)' gap={1} mb={1}>
+        <Box></Box>
+        {days}
+      </Grid>
+      <Box
+        height={`${(scale + 4) * 9}px`}
+        overflowY='scroll'
+        sx={{
+          '::-webkit-scrollbar': { display: 'none' },
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+          'scroll-snap-type': 'y manditory',
+        }}
+      >
+        <Grid templateColumns='7% repeat(7, 13%)' gap={1}>
+          <DayIndex />
+          {day_events}
+        </Grid>
+      </Box>
+    </Box>
   )
 }

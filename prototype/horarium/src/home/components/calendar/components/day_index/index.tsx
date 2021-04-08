@@ -5,10 +5,10 @@ export const DayIndex = () => {
   const { colorMode } = useColorMode()
   const bgColor = { light: 'gray.300', dark: 'gray.600' }
 
-  const table: JSX.Element[] = new Array<JSX.Element>(9).fill(<></>).map((value, index) => {
+  const table: JSX.Element[] = new Array<JSX.Element>(24).fill(<></>).map((value, index) => {
     return (
       <Center w='100%' h='16' bg={bgColor[colorMode]} justifyContent='center' fontSize='lg'>
-        {index + 9}:00
+        {index}:00
       </Center>
     )
   })
