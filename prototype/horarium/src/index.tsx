@@ -1,4 +1,5 @@
 import React from 'react'
+import {useEffect} from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import * as serviceWorker from './serviceWorker'
@@ -13,6 +14,7 @@ const history = createBrowserHistory()
 
 function App() {
   setup_local_storage()
+
   return (
     <ChakraProvider>
       <CSSReset />
