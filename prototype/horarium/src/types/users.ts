@@ -17,7 +17,7 @@ export class User {
 }
 
 export class Trainer extends User {
-  permission : Role = Role.Trainer
+  permission: Role = Role.Trainer
   skills!: Modules[]
   avaliability!: AvaliabilityTable
   events: CalendarEvent[] = []
@@ -34,7 +34,6 @@ export class Admin extends User {
 export class Scheduler extends User {
   permission : Role = Role.Scheduler
   working_courses : Course[] = []
-   
 }
 
 export type Group = {

@@ -4,7 +4,7 @@ import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
 import { Header } from './components/header'
 import { Home } from './home'
 import { Login } from './login'
-import { createCourse } from './createCourse'
+import { CreateCourse } from './createCourse'
 
 export type MatchParams = {
   isExact: string
@@ -21,7 +21,7 @@ const Routes = () => {
         <Switch>
           <Route exact key='route-login' path='/' component={Login} />
           <Route exact key='route-home' path='/home' component={Home} />
-          <Route exact key='route-createCourse' path='/create-course' component={createCourse} />
+          <Route exact key='route-createCourse' path='/create-course' component={CreateCourse} />
           <Redirect from='*' to='/' /> {/* TODO: add 404 page instead */}
         </Switch>
       </Box>

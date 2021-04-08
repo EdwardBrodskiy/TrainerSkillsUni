@@ -1,40 +1,27 @@
 import React from 'react'
 import { Box } from '@chakra-ui/react'
-//import { PrefillEventData } from '../../../types'
-
-export type CreateCourseCaller = () => void
+import { Course } from '../../../types'
+import store from 'store'
 
 type Props = {
-  createCourse: CreateCourseCaller
+  course: Course
+  setCurrentCourse: any
 }
 
-export const CourseCard = ({ createCourse }: Props) => {
+export type CourseChanger = () => void
+
+export const CourseCard = ({ course, setCurrentCourse }: Props) => {
+  var thisCourse: Course = store.get('courses')[course.courseId]
   return (
     <Box
       p={3}
-      bg={'green'}
+      bg={'gray'}
       rounded={6}
       height={20}
       fontSize={18}
-      onClick={() => createCourse()}
+      onClick={event => setCurrentCourse(thisCourse)}
     >
-      Course
-    </Box>
-  )
-}
-
-export const AddCourse = ({ createCourse }: Props) => {
-  return (
-    <Box
-      p={3}
-      bg={'darkblue'}
-      rounded={6}
-      height={20}
-      fontSize={36}
-      onClick={() => createCourse()}
-      textAlign={'center'}
-    >
-      +
+      {course.name}
     </Box>
   )
 }
