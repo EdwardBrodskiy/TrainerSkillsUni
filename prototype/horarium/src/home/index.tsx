@@ -13,8 +13,8 @@ export const Home = () => {
     onOpen: onCreateEventOpen,
     onClose: onCreateEventClose,
   } = useDisclosure()
-  const createEvent = (data: PrefillEventData) => {
-    setEventData(data)
+  const createEvent = async (data: PrefillEventData) => {
+    await setEventData(data)
     onCreateEventOpen()
   }
   const current_course: Course = store.get('courses')[0] //TODO: add course selection and creation
@@ -23,6 +23,7 @@ export const Home = () => {
       <SidebarWrapper events={current_course.eventTypes} createEvent={createEvent}>
         <Calendar />
         <CreateEventModal
+          key={`${JSON.stringify(eventData, null, 2)}`} // to make it rerender
           isOpen={isCreateEventOpen}
           onClose={onCreateEventClose}
           prefilledData={eventData}
