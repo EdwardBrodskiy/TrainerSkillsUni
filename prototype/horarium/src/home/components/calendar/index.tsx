@@ -10,6 +10,7 @@ const week_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satu
 export const Calendar = () => {
   const { colorMode } = useColorMode()
   const altBgColor = { light: 'gray.300', dark: 'gray.600' }
+  const scale = 64
 
   const current_course: Course = store.get('courses')[0]
 
@@ -23,10 +24,10 @@ export const Calendar = () => {
       const time = new Date(event.start_time)
       return time.getDay() - 1 === day_index
     })
-    return <Day events={events} />
+    return <Day events={events} scale={scale} />
   })
   return (
-    <Grid templateColumns='repeat(8, 1fr)' gap={1}>
+    <Grid templateColumns='7% repeat(7, 13%)' gap={1}>
       <Box></Box>
       {days}
       <DayIndex />

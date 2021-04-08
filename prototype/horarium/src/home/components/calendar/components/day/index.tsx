@@ -1,12 +1,14 @@
 import React from 'react'
 import { Box, useColorMode, VStack } from '@chakra-ui/react'
 import { CalendarEvent } from '../../../../../types'
+import { EventCard } from '../eventCard'
 
 type Props = {
   events: CalendarEvent[]
+  scale: number
 }
 
-export const Day = ({ events }: Props) => {
+export const Day = ({ events, scale }: Props) => {
   const { colorMode } = useColorMode()
   const bgColor = { light: 'gray.200', dark: 'gray.700' }
 
@@ -16,13 +18,17 @@ export const Day = ({ events }: Props) => {
         const time = new Date(event.start_time)
         return time.getHours() === index + 9
       })
-      .map((event, index) => <Box bg={event.type.color}>{event.title}</Box>)
+      .map((event, index) => <EventCard event={event} scale={scale} />)
     return (
-      <Box w='100%' h='16' bg={bgColor[colorMode]}>
+      <Box w='100%' h={`${scale}px`} bg={bgColor[colorMode]}>
         {events_this_hour}
       </Box>
     )
   })
 
-  return <VStack spacing={1}>{table}</VStack>
+  return (
+    <VStack spacing={1} maxWidth='100%' overflow='hidden'>
+      {table}
+    </VStack>
+  )
 }

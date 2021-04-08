@@ -1,10 +1,5 @@
 import React from 'react'
-import { Box, useColorMode, VStack } from '@chakra-ui/react'
-import { CalendarEvent } from '../../../../../types'
-
-type Props = {
-  events: CalendarEvent[]
-}
+import { Center, useColorMode, VStack } from '@chakra-ui/react'
 
 export const DayIndex = () => {
   const { colorMode } = useColorMode()
@@ -12,17 +7,9 @@ export const DayIndex = () => {
 
   const table: JSX.Element[] = new Array<JSX.Element>(9).fill(<></>).map((value, index) => {
     return (
-      <Box
-        w='100%'
-        h='16'
-        bg={bgColor[colorMode]}
-        justifyContent='center'
-        textAlign='center'
-        fontSize='lg'
-        padding={4}
-      >
+      <Center w='100%' h='16' bg={bgColor[colorMode]} justifyContent='center' fontSize='lg'>
         {index + 9}:00
-      </Box>
+      </Center>
     )
   })
 
