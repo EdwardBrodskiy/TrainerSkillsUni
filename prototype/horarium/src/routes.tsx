@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react'
 import React from 'react'
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
+import { isAuth } from './auth'
 import { Header } from './components/header'
 import { Home } from './home'
 import { Login } from './login'
@@ -19,6 +20,7 @@ const Routes = () => {
       <Box>
         <Switch>
           <Route exact key='route-login' path='/' component={Login} />
+          {isAuth() || <Redirect to='/' />}
           <Route exact key='route-home' path='/home' component={Home} />
           <Redirect from='*' to='/' /> {/* TODO: add 404 page instead */}
         </Switch>

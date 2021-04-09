@@ -2,11 +2,13 @@ import React from 'react'
 import { Box, Flex, useColorMode, Image, HStack } from '@chakra-ui/react'
 import { Link, useRouteMatch } from 'react-router-dom'
 import { DarkModeToggle } from '../DarkMode'
-import { NavItem } from './NavItem'
-import { MatchParams, Modules } from '../../types'
+import { NavItem } from './components/navItem'
+import { MatchParams } from '../../types'
 import logo from '../../images/logo.png'
 import logoDark from '../../images/logoDark.png'
 import { Searchbar } from '../../home/components/searchbar'
+import { isAuth } from '../../auth'
+import { UserInfo } from './components/userInfo'
 
 export const Header = () => {
   const match = useRouteMatch<MatchParams>()
@@ -30,17 +32,25 @@ export const Header = () => {
         width='full'
       >
         <Flex align='center' justifyContent='space-between' w='100%' h='100%'>
-          <Box>
+          <HStack spacing={10} alignContent='baseline'>
             <Link to='/home'>
-              <Image alt='logo' src={pageLogo} style={{ maxHeight: '50px' }} />
+              <Image alt='logo' src={pageLogo} height='3.5rem' />
             </Link>
-          </Box>
+            {isAuth() && (
+              <HStack>
+                <NavItem to='/home'>Home</NavItem>
+              </HStack>
+            )}
+          </HStack>
 
           <HStack spacing={4}>
-            <NavItem>
-              <Link to='/home'>Home</Link>
-            </NavItem>
-            <Searchbar />
+            {isAuth() && (
+              <HStack spacing={10}>
+                <UserInfo />
+                <Searchbar />
+              </HStack>
+            )}
+
             <DarkModeToggle />
           </HStack>
         </Flex>
