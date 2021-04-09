@@ -8,8 +8,6 @@ type Props = {
   setCurrentCourse: any
 }
 
-export type CourseChanger = () => void
-
 export const CourseCard = ({ course, setCurrentCourse }: Props) => {
   var thisCourse: Course = store.get('courses')[course.courseId]
   return (

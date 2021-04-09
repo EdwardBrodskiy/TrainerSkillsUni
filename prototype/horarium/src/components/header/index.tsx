@@ -30,7 +30,7 @@ export const Header = () => {
               <Link to='/home'>Home</Link>
             </NavItem>
             <NavItem>
-              <Link to='/create-course'>Create Course</Link>
+              <Link to='/create-course'>Courses</Link>
             </NavItem>
           </Flex>
           <DarkModeToggle />

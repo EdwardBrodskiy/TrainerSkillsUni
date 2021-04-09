@@ -1,10 +1,10 @@
-import { Course, Modules, Trainer, Role } from './types'
+import { Course, Group } from './types'
 import store from 'store'
 
 type Schema = {
   courses: Course[]
   locations: string[]
-  trainers: Trainer[]
+  groups: Group[]
 }
 
 export const setup_local_storage = () => {
@@ -12,14 +12,14 @@ export const setup_local_storage = () => {
     courses: [
       {
         name: 'Databases_test',
-        module: Modules.Databases,
+        module: 'Databases',
         description: 'This is a description for Databases Module. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed iaculis ligula. Vestibulum ligula purus, sodales nec pretium vitae, gravida sed tortor. Mauris porttitor porttitor tortor sit amet dapibus. Proin ornare id purus vel egestas. Proin at libero lectus. Nam eget ultricies turpis. Praesent fermentum quam nunc, pulvinar consectetur eros laoreet vel. Aenean cursus mattis turpis sed accumsan. Phasellus pharetra lacus non hendrerit ornare.',
         courseId: '0',
         enroled_groups: [
           { name: 'EECS', consultants: [] },
           { name: 'ASDF', consultants: [] }, 
         ],
-        shedulers: [],
+        schedulers: [],
         events: [],
         eventTypes: [
           { name: 'Lecture', color: 'tomato' },
@@ -29,14 +29,14 @@ export const setup_local_storage = () => {
       },
       {
         name: 'Accounting_test',
-        module: Modules.Accounting,
+        module: 'Accounting',
         description: 'This is a description for Accounting Module. Nullam imperdiet fermentum sem sit amet consequat. Aenean tempus tristique commodo. Proin tincidunt, odio vitae egestas varius, massa purus cursus eros, non vulputate metus tellus nec augue. Phasellus vulputate ipsum non nulla ultricies porttitor. Etiam feugiat eget ante ut faucibus. Quisque id dui lacus. Phasellus quam risus, ullamcorper et consectetur in, mattis vitae tellus. Vestibulum vel pulvinar ex. Donec eu sapien purus. Nam sollicitudin lectus id varius varius. Sed mi arcu, ullamcorper at feugiat a, semper vitae mi.',
         courseId: '1',
         enroled_groups: [
           { name: 'EECS', consultants: [] },
           { name: 'HJKL', consultants: [] }, 
         ],
-        shedulers: [],
+        schedulers: [],
         events: [],
         eventTypes: [
           { name: 'Lecture', color: 'red' },
@@ -46,41 +46,10 @@ export const setup_local_storage = () => {
       },
     ],
     locations: ['London', 'HongKong', 'Paris'],
-    trainers: [
-      {
-        name: 'trainer 1',
-        email: 'asdf1234@gmail.com',
-        flag: false,
-        academy_location: 'London',
-        profile_picture: 'none',
-        permission: Role.Trainer,
-        skills: [
-          Modules.Databases,
-          Modules.WebDev
-        ],
-        avaliability:{ 
-          fixed: ['Monday','Tuesday','Wednesday'], 
-          variable: ['Thursday','Friday', 'Saturday']
-        },
-        events: []
-      },
-      {
-        name: 'trainer 2',
-        email: '1234asdf@gmail.com',
-        flag: false,
-        academy_location: 'London',
-        profile_picture: 'none',
-        permission: Role.Trainer,
-        skills: [
-          Modules.Business,
-          Modules.Accounting
-        ],
-        avaliability:{ 
-          fixed: ['Thursday','Friday', 'Saturday','Sunday'], 
-          variable: ['Monday','Tuesday','Wednesday']
-        },
-        events: []
-      },
+    groups: [
+      { name: 'EECS', consultants: [] },
+      { name: 'ASDF', consultants: [] },
+      { name: 'HJKL', consultants: [] },
     ],
   }
   let item: keyof typeof defaults

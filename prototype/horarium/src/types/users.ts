@@ -1,4 +1,4 @@
-import { AvaliabilityTable, CalendarEvent, Course, Modules } from "./calendar"
+import { AvaliabilityTable, CalendarEvent, Course } from "./calendar"
 
 export enum Role {
   Admin,
@@ -18,7 +18,7 @@ export class User {
 
 export class Trainer extends User {
   permission: Role = Role.Trainer
-  skills!: Modules[]
+  skills!: string[]
   avaliability!: AvaliabilityTable
   events: CalendarEvent[] = []
 }
@@ -39,6 +39,5 @@ export class Scheduler extends User {
 export type Group = {
   name : string
   consultants : Consultant[]
-
 }
 

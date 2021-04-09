@@ -8,13 +8,13 @@ import store from 'store'
 
 export const CreateCourse = () => {
   const courseList: Course[] = store.get('courses')
-  var defaultCourse: Course = store.get('courses')[0]
+  var defaultCourse = courseList[0]
   const [currentCourse, setCurrentCourse] = useState(defaultCourse)
+
   return (
     <Box height='100%'>
       <SidebarWrapper 
         courses={courseList} 
-        createCourse={CreateCourse} 
         setCurrentCourse={setCurrentCourse}
       >
         <CourseDetails course={currentCourse} />

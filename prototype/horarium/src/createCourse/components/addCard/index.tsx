@@ -1,13 +1,11 @@
 import React from 'react'
 import { Box } from '@chakra-ui/react'
 
-export type CreateCourseCaller = () => void
-
 type Props = {
-  createCourse: CreateCourseCaller
+  setCurrentCourse: any
 }
 
-export const AddCourse = ({ createCourse }: Props) => {
+export const AddCard = ({ setCurrentCourse }: Props) => {
   return (
     <Box
       p={3}
@@ -15,8 +13,8 @@ export const AddCourse = ({ createCourse }: Props) => {
       rounded={6}
       height={20}
       fontSize={36}
-      onClick={() => createCourse()}
       textAlign={'center'}
+      onClick={event => setCurrentCourse(null)}
     >
       +
     </Box>
