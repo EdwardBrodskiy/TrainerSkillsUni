@@ -1,9 +1,17 @@
-import { Course, Group } from './types'
+import { Admin, Consultant, Course, Modules, Scheduler, Trainer, User } from './types'
 import store from 'store'
+
+export type Session = {
+  userIndex?: number
+  user?: User
+  selectedCourse?: number
+}
 
 type Schema = {
   courses: Course[]
   locations: string[]
+  users: User[]
+  session: Session
   groups: Group[]
 }
 
@@ -17,7 +25,7 @@ export const setup_local_storage = () => {
         courseId: '0',
         enroled_groups: [
           { name: 'EECS', consultants: [] },
-          { name: 'ASDF', consultants: [] }, 
+          { name: 'ASDF', consultants: [] },
         ],
         schedulers: [],
         events: [],
@@ -34,7 +42,7 @@ export const setup_local_storage = () => {
         courseId: '1',
         enroled_groups: [
           { name: 'EECS', consultants: [] },
-          { name: 'HJKL', consultants: [] }, 
+          { name: 'HJKL', consultants: [] },
         ],
         schedulers: [],
         events: [],
@@ -46,6 +54,23 @@ export const setup_local_storage = () => {
       },
     ],
     locations: ['London', 'HongKong', 'Paris'],
+    users: [
+      new Admin({ email: 'admin@outlook.com', academy_location: 'London', name: 'admin' }),
+      new Scheduler({
+        email: 'scheduler@outlook.com',
+        academy_location: 'London',
+        name: 'scheduler',
+      }),
+      new Trainer({ email: 'trainer@outlook.com', academy_location: 'London', name: 'trainer' }, [
+        Modules.Databases,
+      ]),
+      new Consultant({
+        email: 'consultant@outlook.com',
+        academy_location: 'London',
+        name: 'consultant',
+      }),
+    ],
+    session: {},
     groups: [
       { name: 'EECS', consultants: [] },
       { name: 'ASDF', consultants: [] },

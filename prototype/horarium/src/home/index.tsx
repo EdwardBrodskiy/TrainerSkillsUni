@@ -4,6 +4,7 @@ import { SidebarWrapper } from './components/sidebar'
 import { Calendar } from './components/calendar'
 import { Course, PrefillEventData } from '../types'
 import { CreateEventModal } from './components/createEvent'
+import { Searchbar } from './components/searchbar'
 import store from 'store'
 
 export const Home = () => {
