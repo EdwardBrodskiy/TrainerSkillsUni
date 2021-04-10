@@ -9,6 +9,7 @@ import logoDark from '../../images/logoDark.png'
 import { Searchbar } from '../../home/components/searchbar'
 import { isAuth } from '../../auth'
 import { UserInfo } from './components/userInfo'
+import { Settings } from './components/settings'
 
 export const Header = () => {
   const match = useRouteMatch<MatchParams>()
@@ -46,6 +47,7 @@ export const Header = () => {
           <HStack spacing={4}>
             {isAuth() && (
               <HStack spacing={10}>
+                <Settings />
                 <UserInfo />
                 <Searchbar />
               </HStack>
