@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Heading, Divider, Text, Stack, Button, Link } from '@chakra-ui/react'
+import { Box, Heading, Divider, Text, Stack, Button, Link, Flex } from '@chakra-ui/react'
 import { Course } from '../../../types'
 import { Groups } from './components/groups'
 import { AddCourse } from './components/addCourse'
@@ -22,41 +22,51 @@ export const CourseDetails = ({ course }: Props) => {
       ) : (
         <Box>
           <Box>
-            <Heading>{course.name} details:</Heading>
+            <Heading mb='5'>{course.name} details:</Heading>
           </Box>
           <Box>
-            <Text>
-              Course ID: {course.courseId}
-              <Divider />
-            </Text>
-            <Text>
-              Description: {course.description}
-              <Divider />
-            </Text>
-            <Text>
-              Modules: {course.module}
-              <Divider />
-            </Text>
-            <Divider />
+            <Flex direction='row' align='center' mb='2'>
+              <Text fontWeight='bold' mr='1'>Course ID:</Text>
+              <Text>{course.courseId}</Text>
+            </Flex>
+            <Divider mb='2'/>
+
+            <Flex direction='row' mb='2'>
+              <Text fontWeight='bold' mr='1'>Description:</Text>
+              <Text>{course.description}</Text>
+            </Flex>
+            <Divider mb='2'/>
+
+            <Flex direction='row' align='center' mb='2' >
+              <Text fontWeight='bold' mr='1'>Modules: </Text>
+              <Text>{course.module}</Text>
+            </Flex>
+            <Divider mb='2'/>
+
             <Groups groups={course.enroled_groups} />
-            <Divider />
-            <Text>
+            <Divider mb='2'/>
+
+            <Flex direction='row' align='center' mb='2' >
               {/* TODO: Subcomponent for display of Schedulers */}
-              Schedulers: {course.schedulers}
-              <Divider />
-            </Text>
-            <Text>
+              <Text fontWeight='bold' mr='1'>Schedulers: </Text>
+              <Text>{course.schedulers}</Text>
+            </Flex>
+            <Divider mb='2'/>
+
+            <Flex direction='row' align='center' mb='2' >
               {/* TODO: Subcomponent for display of Events */}
-              Course Events: {course.events}
-              <Divider />
-            </Text>
+              <Text fontWeight='bold' mr='1'>Course Events: </Text>
+              <Text>{course.schedulers}</Text>
+            </Flex>
+            <Divider mb='2'/>
           </Box>
-          <Stack direction='row' spacing={4}>
+          <Stack direction='row' justify='center' spacing={8}>
             <Link as={ReactLink} to={`/home/${course.courseId}`}>
               <Button colorScheme='green' variant='solid'>
                 To Calendar
               </Button>
             </Link>
+            {/* TODO: Edit Course functionality */}
             <Button colorScheme='teal' variant='solid'>
               Edit Course
             </Button>

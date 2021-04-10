@@ -1,4 +1,4 @@
-import { Admin, Consultant, Course, Group, Scheduler, Trainer, User } from './types'
+import { Admin, Consultant, Course, Scheduler, Trainer, User } from './types'
 import store from 'store'
 
 export type Session = {
@@ -12,7 +12,6 @@ type Schema = {
   locations: string[]
   users: User[]
   session: Session
-  groups: Group[]
 }
 
 export const setup_local_storage = () => {
@@ -69,11 +68,6 @@ export const setup_local_storage = () => {
       }),
     ],
     session: {},
-    groups: [
-      { name: 'EECS', consultants: [] },
-      { name: 'ASDF', consultants: [] },
-      { name: 'HJKL', consultants: [] },
-    ],
   }
   let item: keyof typeof defaults
   for (item in defaults) {

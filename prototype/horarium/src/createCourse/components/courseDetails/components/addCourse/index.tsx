@@ -8,6 +8,8 @@ import {
   useToast,
   Box,
   Heading,
+  Switch,
+  Center,
 } from '@chakra-ui/react'
 import { Course } from '../../../../../types'
 import store from 'store'
@@ -28,7 +30,7 @@ type FormElement = {
 
 export const AddCourse = () => {
   const toast = useToast()
-  
+
   const initialState: FormData = {
     name: { value: '', error: false, touched: false },
     module: { value: '', error: false, touched: true },
@@ -64,7 +66,7 @@ export const AddCourse = () => {
 
   return (
     <Box>
-      <Heading>Create Course:</Heading>
+      <Heading mb='5'>Create Course:</Heading>
       <FormControl>
         <FormLabel>Name:</FormLabel>
         <Input
@@ -73,6 +75,7 @@ export const AddCourse = () => {
           value={formData.name.value}
           isInvalid={formData.name.error}
           {...commonFormElementProps}
+          mb='5'
         />
       </FormControl>
 
@@ -84,6 +87,7 @@ export const AddCourse = () => {
           value={formData.module.value}
           isInvalid={formData.module.error}
           {...commonFormElementProps}
+          mb='5'
         />
       </FormControl>
 
@@ -95,48 +99,64 @@ export const AddCourse = () => {
           value={formData.description.value}
           isInvalid={formData.description.error}
           {...commonFormElementProps}
+          mb='5'
         />
       </FormControl>
 
-      {/*<FormControl> //TODO: Fix the group selection
-        <FormLabel>Enroled Groups</FormLabel>
-        <CheckboxGroup colorScheme='green'>
-          <HStack>{group_boxes}</HStack>
-        </CheckboxGroup>
-      </FormControl>*/}
+      <FormLabel>Enroled Groups:</FormLabel>{/* TODO: Make the switches changeable(not readOnly) and functional to the form*/}
+      <FormControl display='flex' alignItems='center'>
+        <FormLabel mb='5' mr='1'>
+          EECS:
+        </FormLabel>
+        <Switch name='EECS' defaultChecked={true} isReadOnly={true}  value={1} colorScheme='purple' mr='2' mb='4' />
+        <FormLabel mb='5' mr='1'>
+          ASDF:
+        </FormLabel>
+        <Switch name='ASDF' defaultChecked={true} isReadOnly={true} value={1} colorScheme='green' mr='2' mb='4' />
+        <FormLabel mb='5' mr='1'>
+          HJKL:
+        </FormLabel>
+        <Switch name='HJKL' defaultChecked={true} isReadOnly={true} value={1} colorScheme='blue' mr='2' mb='4' />
+      </FormControl>
 
-      <Button
-        colorScheme='blue'
-        mr={3}
-        onClick={() => {
-          if (is_valid(formData)) {
-            save_course({
-              name: formData.name.value,
-              module: formData.module.value,
-              description: formData.description.value,
-              courseId: store.get('courses').length,
-              enroled_groups: [//Temporary default groups
-                { name: 'EECS', consultants: [] },
-                { name: 'HJKL', consultants: [] }],
-              schedulers: [],// TODO: Add support for different schedulers
-              events: [],
-              eventTypes: [// TODO: Different types of events in the form
-                { name: 'Lecture', color: 'tomato' },
-                { name: 'Lab', color: 'orange' },
-                { name: 'Exam', color: 'purple' },
-              ],
-            })
-          } else {
-            toast({
-              title: `Make sure you filled in all the fields`,
-              status: 'error',
-              isClosable: true,
-            })
-          }
-        }}
-      >
-        Create
-      </Button>
+      <Center>
+        <Button
+          colorScheme='blue'
+          mr={3}
+          onClick={() => {
+            if (is_valid(formData)) {
+              save_course({
+                name: formData.name.value,
+                module: formData.module.value,
+                description: formData.description.value,
+                courseId: store.get('courses').length,
+                enroled_groups: [
+                  //Temporary default groups
+                  { name: 'EECS', consultants: [] },
+                  { name: 'ASDF', consultants: [] },
+                  { name: 'HJKL', consultants: [] },
+                ],
+                schedulers: [], // TODO: Add support for different schedulers
+                events: [],
+                eventTypes: [
+                  // TODO: Different types of events in the form
+                  { name: 'Lecture', color: 'tomato' },
+                  { name: 'Lab', color: 'orange' },
+                  { name: 'Exam', color: 'purple' },
+                ],
+              })
+            } else {
+              toast({
+                title: `Make sure you filled in all the fields`,
+                status: 'error',
+                isClosable: true,
+              })
+            }
+          }}
+        >
+          Create
+        </Button>
+      </Center>
     </Box>
   )
 }
@@ -159,9 +179,9 @@ const is_valid = (values: FormData) => {
   return true
 }
 
-const save_course = ( course: Course ) => {
+const save_course = (course: Course) => {
   const courses: Course[] = store.get('courses')
   courses.push(course)
   store.set('courses', courses)
-  window.location.reload()//Refresh if succesful
+  window.location.reload() //Refresh if succesful
 }
