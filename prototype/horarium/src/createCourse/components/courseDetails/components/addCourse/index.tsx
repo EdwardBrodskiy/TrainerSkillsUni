@@ -7,6 +7,7 @@ import {
   Textarea,
   useToast,
   Box,
+  Heading,
 } from '@chakra-ui/react'
 import { Course } from '../../../../../types'
 import store from 'store'
@@ -63,8 +64,9 @@ export const AddCourse = () => {
 
   return (
     <Box>
+      <Heading>Create Course:</Heading>
       <FormControl>
-        <FormLabel>Title</FormLabel>
+        <FormLabel>Name:</FormLabel>
         <Input
           name='name'
           placeholder={'Name of the course'}
@@ -75,10 +77,10 @@ export const AddCourse = () => {
       </FormControl>
 
       <FormControl>
-        <FormLabel>Module</FormLabel>
-        <Textarea
+        <FormLabel>Module:</FormLabel>
+        <Input
           name='module'
-          placeholder='Select a module'
+          placeholder='Name of the module'
           value={formData.module.value}
           isInvalid={formData.module.error}
           {...commonFormElementProps}
@@ -86,7 +88,7 @@ export const AddCourse = () => {
       </FormControl>
 
       <FormControl>
-        <FormLabel>Description</FormLabel>
+        <FormLabel>Description:</FormLabel>
         <Textarea
           name='description'
           placeholder='Description of the course'
@@ -96,7 +98,7 @@ export const AddCourse = () => {
         />
       </FormControl>
 
-      {/*<FormControl>
+      {/*<FormControl> //TODO: Fix the group selection
         <FormLabel>Enroled Groups</FormLabel>
         <CheckboxGroup colorScheme='green'>
           <HStack>{group_boxes}</HStack>
@@ -113,7 +115,7 @@ export const AddCourse = () => {
               module: formData.module.value,
               description: formData.description.value,
               courseId: store.get('courses').length,
-              enroled_groups: [
+              enroled_groups: [//Temporary default groups
                 { name: 'EECS', consultants: [] },
                 { name: 'HJKL', consultants: [] }],
               schedulers: [],// TODO: Add support for different schedulers
@@ -151,7 +153,7 @@ const is_valid = (values: FormData) => {
   let element: keyof FormData
   for (element in values) {
     if (values[element].error || !values[element].touched) {
-      return true
+      return false
     }
   }
   return true
@@ -161,4 +163,5 @@ const save_course = ( course: Course ) => {
   const courses: Course[] = store.get('courses')
   courses.push(course)
   store.set('courses', courses)
+  window.location.reload()//Refresh if succesful
 }

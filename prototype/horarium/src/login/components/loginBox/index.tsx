@@ -30,7 +30,7 @@ export const LoginBox = () => {
     if (userIndex !== -1 && username === password) {
       const session: Session = { ...store.get('session'), userIndex, user: users[userIndex] }
       store.set('session', session)
-      history.push('/home')
+      history.push('/create-course')
     } else {
       toast({
         title: 'Invalid Username/Password',

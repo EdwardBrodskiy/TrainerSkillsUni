@@ -1,4 +1,4 @@
-import { AvaliabilityTable, CalendarEvent, Course, Modules } from './calendar'
+import { AvaliabilityTable, CalendarEvent, Course } from './calendar'
 
 export enum Role {
   Admin,
@@ -40,10 +40,10 @@ export class Scheduler extends User {
 
 export class Trainer extends User {
   permission: Role = Role.Trainer
-  skills: Modules[]
+  skills: string[]
   avaliability: AvaliabilityTable = { fixed: ['9:00', '18:00'], variable: [] }
   events: CalendarEvent[] = []
-  constructor(user: UserData, skills: Modules[]) {
+  constructor(user: UserData, skills: string[]) {
     super(user)
     this.skills = skills
   }

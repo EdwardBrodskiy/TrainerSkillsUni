@@ -18,7 +18,6 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { IconButton, useColorMode } from '@chakra-ui/react'
-import { Modules } from '../../../types'
 import { Search2Icon } from '@chakra-ui/icons'
 import store from 'store'
 import { useState } from 'react'

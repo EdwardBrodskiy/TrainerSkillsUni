@@ -1,8 +1,9 @@
 import React from 'react'
-import { Box, Heading, Divider, Text } from '@chakra-ui/react'
+import { Box, Heading, Divider, Text, Stack, Button, Link } from '@chakra-ui/react'
 import { Course } from '../../../types'
 import { Groups } from './components/groups'
 import { AddCourse } from './components/addCourse'
+import { Link as ReactLink } from 'react-router-dom'
 
 type Props = {
   course: Course
@@ -10,7 +11,7 @@ type Props = {
 
 export const CourseDetails = ({ course }: Props) => {
   const showForm = (course: Course) => {
-    if(course === null) {
+    if (course === null) {
       return true
     }
   }
@@ -50,6 +51,16 @@ export const CourseDetails = ({ course }: Props) => {
               <Divider />
             </Text>
           </Box>
+          <Stack direction='row' spacing={4}>
+            <Link as={ReactLink} to={`/home/${course.courseId}`}>
+              <Button colorScheme='green' variant='solid'>
+                To Calendar
+              </Button>
+            </Link>
+            <Button colorScheme='teal' variant='solid'>
+              Edit Course
+            </Button>
+          </Stack>
         </Box>
       )}
     </Box>

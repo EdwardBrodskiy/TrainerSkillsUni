@@ -1,4 +1,4 @@
-import { Admin, Consultant, Course, Modules, Scheduler, Trainer, User } from './types'
+import { Admin, Consultant, Course, Group, Scheduler, Trainer, User } from './types'
 import store from 'store'
 
 export type Session = {
@@ -61,9 +61,7 @@ export const setup_local_storage = () => {
         academy_location: 'London',
         name: 'scheduler',
       }),
-      new Trainer({ email: 'trainer@outlook.com', academy_location: 'London', name: 'trainer' }, [
-        Modules.Databases,
-      ]),
+      new Trainer({ email: 'trainer@outlook.com', academy_location: 'London', name: 'trainer' }, ['Databases',]),
       new Consultant({
         email: 'consultant@outlook.com',
         academy_location: 'London',

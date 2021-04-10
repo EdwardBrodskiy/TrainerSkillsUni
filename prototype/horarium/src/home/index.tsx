@@ -6,8 +6,11 @@ import { Course, PrefillEventData } from '../types'
 import { CreateEventModal } from './components/createEvent'
 import { Searchbar } from './components/searchbar'
 import store from 'store'
+import { RouteComponentProps } from 'react-router-dom'
 
-export const Home = () => {
+type TParams =  { id: string };
+
+export const Home = ({ match }: RouteComponentProps<TParams>) => {
   const [eventData, setEventData] = useState<PrefillEventData>({})
   const {
     isOpen: isCreateEventOpen,
@@ -18,7 +21,7 @@ export const Home = () => {
     await setEventData(data)
     onCreateEventOpen()
   }
-  const current_course: Course = store.get('courses')[0] //TODO: add course selection and creation
+  const current_course: Course = store.get('courses')[match.params.id]
   return (
     <Box height='100%'>
       <SidebarWrapper events={current_course.eventTypes} createEvent={createEvent}>
