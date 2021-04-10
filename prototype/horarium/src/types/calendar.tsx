@@ -11,7 +11,7 @@ export type Course = {
   courseId: string
   enroled_groups: Group[]
   shedulers: Scheduler[]
-  events: Event[]
+  events: CalendarEvent[]
   eventTypes: CalendarEventType[]
 }
 
@@ -26,7 +26,7 @@ export type CalendarEvent = {
   type: CalendarEventType
   location: string
   start_time: string
-  duration: string
+  end_time: string
 }
 
 export type PrefillEventData = {
