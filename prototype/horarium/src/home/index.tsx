@@ -20,7 +20,7 @@ export const Home = () => {
   const current_course: Course = store.get('courses')[0] //TODO: add course selection and creation
   return (
     <Box height='100%'>
-      <SidebarWrapper events={current_course.eventTypes} createEvent={createEvent}>
+      <SidebarWrapper createEvent={createEvent}>
         <Calendar />
         <CreateEventModal
           key={`${JSON.stringify(eventData, null, 2)}`} // to make it rerender
