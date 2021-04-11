@@ -17,7 +17,7 @@ export const Home = () => {
     onCreateEventOpen()
   }
   return (
-    <Box height='100%'>
+    <Box>
       <SidebarWrapper createEvent={createEvent}>
         <Calendar />
         <CreateEventModal

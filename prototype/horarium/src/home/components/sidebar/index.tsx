@@ -61,7 +61,16 @@ export const Sidebar = ({ createEvent }: Props) => {
 export const SidebarWrapper = ({ children, createEvent }: Props & PropsWithChildren<{}>) => {
   return (
     <ViewGrid>
-      <ViewSide>
+      <ViewSide
+        height='57em'
+        overflowY='scroll'
+        sx={{
+          '::-webkit-scrollbar': { display: 'none' },
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+          'scroll-snap-type': 'y manditory',
+        }}
+      >
         <Sidebar createEvent={createEvent} />
       </ViewSide>
       <Box p={3}>{children}</Box>

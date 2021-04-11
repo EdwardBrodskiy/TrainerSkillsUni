@@ -1,7 +1,9 @@
 import React from 'react'
 import { Grid, GridProps, Box, BoxProps, useColorMode } from '@chakra-ui/react'
 
-export const ViewGrid = (props: GridProps) => <Grid {...props} templateColumns='16rem minmax(0, 1fr)' gap={0} />
+export const ViewGrid = (props: GridProps) => (
+  <Grid {...props} templateColumns='16rem minmax(0, 1fr)' gap={0} />
+)
 
 export const ViewSide = (props: BoxProps) => {
   const { colorMode } = useColorMode()
@@ -9,7 +11,7 @@ export const ViewSide = (props: BoxProps) => {
   return (
     <Box
       {...props}
-      overflow='hidden'
+      overflowX='hidden'
       borderRightStyle='solid'
       borderRightColor={borderColor[colorMode]}
       borderRightWidth='1px'
