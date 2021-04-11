@@ -18,9 +18,9 @@ export const Day = ({ events, scale }: Props) => {
         const time = new Date(event.start_time)
         return time.getHours() === index
       })
-      .map((event, index) => <EventCard event={event} scale={scale} />)
+      .map((event, index) => <EventCard key={index} event={event} scale={scale} />)
     return (
-      <Box w='100%' h={`${scale}px`} bg={bgColor[colorMode]}>
+      <Box key={index} w='100%' h={`${scale}px`} bg={bgColor[colorMode]}>
         {events_this_hour}
       </Box>
     )

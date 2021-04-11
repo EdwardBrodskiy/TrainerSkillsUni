@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Box, Button, Flex, Input, useToast } from '@chakra-ui/react'
 import { CalendarEventType } from '../../../types'
-import { useColorMode, theme } from '@chakra-ui/react'
+import { useColorMode } from '@chakra-ui/react'
 
 type Props = {
   createEventType: (newEventType: CalendarEventType) => void
@@ -39,7 +39,6 @@ export const CreateEventType = ({ createEventType }: Props) => {
         />
         <Button
           aria-label='create event type'
-          isRound={true}
           onClick={() => {
             try {
               createEventType({ name: title, color: bg })

@@ -15,7 +15,15 @@ export const Calendar = () => {
   const current_course: Course = store.get('courses')[0]
 
   const days = week_days.map((day, index) => (
-    <Box w='100%' h='14' bg={altBgColor[colorMode]} padding='3' fontSize='20' isTruncated>
+    <Box
+      key={index}
+      w='100%'
+      h='14'
+      bg={altBgColor[colorMode]}
+      padding='3'
+      fontSize='20'
+      isTruncated
+    >
       {day}
     </Box>
   ))
@@ -24,12 +32,12 @@ export const Calendar = () => {
       const time = new Date(event.start_time)
       return time.getDay() - 1 === day_index
     })
-    return <Day events={events} scale={scale} />
+    return <Day key={day} events={events} scale={scale} />
   })
 
   return (
     <Box>
-      <Grid templateColumns='7% repeat(7, 13%)' gap={1} mb={1}>
+      <Grid key='labels' templateColumns='7% repeat(7, 13%)' gap={1} mb={1}>
         <Box></Box>
         {days}
       </Grid>
@@ -43,7 +51,7 @@ export const Calendar = () => {
           'scroll-snap-type': 'y manditory',
         }}
       >
-        <Grid templateColumns='7% repeat(7, 13%)' gap={1}>
+        <Grid key='grid' templateColumns='7% repeat(7, 13%)' gap={1}>
           <DayIndex />
           {day_events}
         </Grid>

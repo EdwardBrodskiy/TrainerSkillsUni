@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Button, IconButton } from '@chakra-ui/react'
+import { Flex, IconButton } from '@chakra-ui/react'
 import { CalendarEventType, PrefillEventData } from '../../../types'
 import { CloseIcon } from '@chakra-ui/icons'
 

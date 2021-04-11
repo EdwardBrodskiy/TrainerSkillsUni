@@ -15,6 +15,7 @@ export const DayIndex = () => {
   const table: JSX.Element[] = new Array<JSX.Element>(24).fill(<></>).map((value, index) => {
     return (
       <Center
+        key={index}
         w='100%'
         h='16'
         bg={bgColor[colorMode]}
