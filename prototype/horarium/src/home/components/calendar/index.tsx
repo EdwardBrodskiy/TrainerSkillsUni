@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Grid, HStack, useColorMode } from '@chakra-ui/react'
+import { Box, Grid, useColorMode } from '@chakra-ui/react'
 import { Day } from './components/day'
 import store from 'store'
 import { Course } from '../../../types'
@@ -26,6 +26,7 @@ export const Calendar = () => {
     })
     return <Day events={events} scale={scale} />
   })
+
   return (
     <Box>
       <Grid templateColumns='7% repeat(7, 13%)' gap={1} mb={1}>
@@ -33,7 +34,7 @@ export const Calendar = () => {
         {days}
       </Grid>
       <Box
-        height={`${(scale + 4) * 9}px`}
+        height={`${(scale + 4) * 11}px`}
         overflowY='scroll'
         sx={{
           '::-webkit-scrollbar': { display: 'none' },

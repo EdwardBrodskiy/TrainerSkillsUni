@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import * as serviceWorker from './serviceWorker'
-import { HashRouter } from 'react-router-dom'
+import { Router } from 'react-router-dom'
 import './App.css'
 import { CSSReset, ChakraProvider } from '@chakra-ui/react'
 import Routes from './routes'
@@ -16,9 +16,9 @@ function App() {
   return (
     <ChakraProvider>
       <CSSReset />
-      <HashRouter basename='/'>
+      <Router history={history}>
         <Routes />
-      </HashRouter>
+      </Router>
     </ChakraProvider>
   )
 }
