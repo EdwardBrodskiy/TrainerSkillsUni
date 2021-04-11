@@ -1,15 +1,22 @@
 import React from 'react'
-import { Box, Flex, useColorMode } from '@chakra-ui/react'
+import { Box, Flex, useColorMode, Image, HStack } from '@chakra-ui/react'
 import { Link, useRouteMatch } from 'react-router-dom'
 import { DarkModeToggle } from '../DarkMode'
-import { NavItem } from './NavItem'
+import { NavItem } from './components/navItem'
 import { MatchParams } from '../../types'
+import logo from '../../images/logo.png'
+import logoDark from '../../images/logoDark.png'
+import { Searchbar } from '../../home/components/searchbar'
+import { isAuth } from '../../auth'
+import { UserInfo } from './components/userInfo'
 
 export const Header = () => {
   const match = useRouteMatch<MatchParams>()
 
   const { colorMode } = useColorMode()
   const bgColor = { light: 'gray.200', dark: 'gray.700' }
+  let pageLogo = colorMode === 'light' ? logo : logoDark
+
   return (
     <Box h='4rem'>
       <Box
@@ -17,20 +24,35 @@ export const Header = () => {
         p={4}
         h='4rem'
         bg={bgColor[colorMode]}
-        pos={'fixed'}
+        pos='fixed'
         left='0'
         right='0'
         top='0'
         borderBottomWidth='1px'
         width='full'
       >
-        <Flex justify='space-between' align='center' w='100%' h='100%'>
-          <Flex align='center' justify='space-evenly' maxWidth='480px'>
-            <NavItem>
-              <Link to='/'>Home</Link>
-            </NavItem>
-          </Flex>
-          <DarkModeToggle />
+        <Flex align='center' justifyContent='space-between' w='100%' h='100%'>
+          <HStack spacing={10} alignContent='baseline'>
+            <Link to='/home'>
+              <Image alt='logo' src={pageLogo} height='3.5rem' />
+            </Link>
+            {isAuth() && (
+              <HStack>
+                <NavItem to='/home'>Home</NavItem>
+              </HStack>
+            )}
+          </HStack>
+
+          <HStack spacing={4}>
+            {isAuth() && (
+              <HStack spacing={10}>
+                <UserInfo />
+                <Searchbar />
+              </HStack>
+            )}
+
+            <DarkModeToggle />
+          </HStack>
         </Flex>
       </Box>
     </Box>
