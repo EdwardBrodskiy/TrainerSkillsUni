@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, IconButton } from '@chakra-ui/react'
+import { Flex, Heading, IconButton } from '@chakra-ui/react'
 import { CalendarEventType, PrefillEventData } from '../../../types'
 import { CloseIcon } from '@chakra-ui/icons'
 
@@ -23,7 +23,9 @@ export const EventCard = ({ event, createEvent, isRemovable, removeEventType }: 
       onClick={() => createEvent({ type: event })}
       justify='space-between'
     >
-      {event.name}
+      <Heading size='md' isTruncated>
+        {event.name}
+      </Heading>
       <IconButton
         aria-label='Remove Event Type'
         background='red.400'
