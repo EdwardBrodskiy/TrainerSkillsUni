@@ -30,7 +30,7 @@ export const Calendar = () => {
   const day_events = week_days.map((day, day_index) => {
     const events = current_course.events.filter((event) => {
       const time = new Date(event.start_time)
-      return time.getDay() - 1 === day_index
+      return (time.getDay() + 6) % 7 === day_index
     })
     return <Day key={day} events={events} scale={scale} />
   })
@@ -46,9 +46,9 @@ export const Calendar = () => {
         overflowY='scroll'
         sx={{
           '::-webkit-scrollbar': { display: 'none' },
-          '-ms-overflow-style': 'none',
-          'scrollbar-width': 'none',
-          'scroll-snap-type': 'y manditory',
+          msOverFlowStyle: 'none',
+          scrollbarWidth: 'none',
+          scrollSnapType: 'y manditory',
         }}
       >
         <Grid key='grid' templateColumns='7% repeat(7, 13%)' gap={1}>

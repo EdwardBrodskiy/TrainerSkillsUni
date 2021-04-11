@@ -66,9 +66,9 @@ export const SidebarWrapper = ({ children, createEvent }: Props & PropsWithChild
         overflowY='scroll'
         sx={{
           '::-webkit-scrollbar': { display: 'none' },
-          '-ms-overflow-style': 'none',
-          'scrollbar-width': 'none',
-          'scroll-snap-type': 'y manditory',
+          msOverFlowStyle: 'none',
+          scrollbarWidth: 'none',
+          scrollSnapType: 'y manditory',
         }}
       >
         <Sidebar createEvent={createEvent} />
