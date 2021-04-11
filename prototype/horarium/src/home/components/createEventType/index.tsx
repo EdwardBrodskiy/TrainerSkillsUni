@@ -12,13 +12,15 @@ export const CreateEventType = ({ createEventType }: Props) => {
 
   const { colorMode } = useColorMode()
   const bgInputs = { light: 'gray.300', dark: 'gray.600' }
+  const bgPlaceholder = { light: 'gray.200', dark: 'gray.700' }
 
-  const [bg, setBg] = useState<string>(theme.colors.gray[500])
+  const [bg, setBg] = useState<string>('')
   const [title, setTitle] = useState<string>('')
 
   return (
-    <Box p={3} rounded={6} fontSize={18} bg={bg}>
+    <Box p={3} rounded={6} fontSize={18} bg={bg || bgPlaceholder[colorMode]}>
       <Input
+        placeholder='Event Name'
         borderWidth={4}
         borderColor={bgInputs[colorMode]}
         value={title}
