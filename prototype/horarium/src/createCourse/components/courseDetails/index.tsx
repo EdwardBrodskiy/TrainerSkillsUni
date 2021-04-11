@@ -15,11 +15,11 @@ export const CourseDetails = ({ course }: Props) => {
 
   const editButton = (setIsEditing: any) => {
     return isEditing ? (
-      <ButtonGroup justifyContent='center' size='sm'>
+      <ButtonGroup>
         <Button colorScheme='green' variant='solid' onClick={() => setIsEditing(false)}>
           Save
         </Button>
-        <Button colorScheme='red' variant='solid'onClick={() => setIsEditing(false)}>
+        <Button colorScheme='red' variant='solid' onClick={() => setIsEditing(false)}>
           Cancel
         </Button>
       </ButtonGroup>
@@ -37,7 +37,7 @@ export const CourseDetails = ({ course }: Props) => {
     <Box>
       <EditCourse course={course} isEditing={isEditing} />
 
-      <Stack direction='row' justify='center' spacing={8}>
+      <Stack direction='row' justify='space-between' mx='20%' mt={4}>
         <Link as={ReactLink} to={'/home'}>
           <Button
             colorScheme='green'

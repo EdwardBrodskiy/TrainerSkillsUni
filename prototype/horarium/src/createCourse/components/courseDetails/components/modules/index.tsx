@@ -42,24 +42,12 @@ export const Modules = ({ modules, isEditing }: Props) => {
   }
   if (isEditing) {
     return (
-      <Flex direction='row' align='center' mb='2'>
-        <Text fontWeight='bold' mr='1'>
-          Modules:
-        </Text>
-        <Editable defaultValue={modules} isPreviewFocusable={false}>
-          <EditablePreview />
-          <EditableInput />
-          <EditableControls />
-        </Editable>
-      </Flex>
+      <Editable defaultValue={modules} isPreviewFocusable={false}>
+        <EditablePreview />
+        <EditableInput />
+        <EditableControls />
+      </Editable>
     )
   }
-  return (
-    <Flex direction='row' mb='2'>
-      <Text fontWeight='bold' mr='1'>
-        Modules:
-      </Text>
-      <Text>{modules}</Text>
-    </Flex>
-  )
+  return <Text>{modules}</Text>
 }

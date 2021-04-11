@@ -40,27 +40,15 @@ export const Description = ({ description, isEditing }: Props) => {
       />
     )
   }
-  
+
   if (isEditing) {
     return (
-      <Flex direction='row' mb='2'>
-      <Text fontWeight='bold' mr='1'>
-        Description:
-      </Text>
       <Editable defaultValue={description} isPreviewFocusable={false}>
         <EditablePreview />
         <EditableInput />
         <EditableControls />
       </Editable>
-    </Flex>
     )
   }
-  return (
-    <Flex direction='row' mb='2'>
-      <Text fontWeight='bold' mr='1'>
-        Description:
-      </Text>
-      <Text>{description}</Text>
-    </Flex>
-  )
+  return <Text>{description}</Text>
 }
