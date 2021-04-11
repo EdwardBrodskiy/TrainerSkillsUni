@@ -17,7 +17,7 @@ export const Sidebar = ({ courses, setCurrentCourse }: Props) => {
   return (
     <Stack spacing={2} padding={2}>
       {courseCards}
-      <AddCard setCurrentCourse={setCurrentCourse}/>
+      <AddCard setCurrentCourse={setCurrentCourse} />
     </Stack>
   )
 }
@@ -29,8 +29,17 @@ export const SidebarWrapper = ({
 }: Props & PropsWithChildren<{}>) => {
   return (
     <ViewGrid>
-      <ViewSide>
-        <Sidebar courses={courses} setCurrentCourse={setCurrentCourse}/>
+      <ViewSide
+        height='57em'
+        overflowY='scroll'
+        sx={{
+          '::-webkit-scrollbar': { display: 'none' },
+          msOverFlowStyle: 'none',
+          scrollbarWidth: 'none',
+          scrollSnapType: 'y manditory',
+        }}
+      >
+        <Sidebar courses={courses} setCurrentCourse={setCurrentCourse} />
       </ViewSide>
       <Box p={3}>{children}</Box>
     </ViewGrid>

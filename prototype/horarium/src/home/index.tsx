@@ -21,7 +21,7 @@ export const Home = ({ match }: RouteComponentProps<TParams>) => {
     await setEventData(data)
     onCreateEventOpen()
   }
-  const current_course: Course = store.get('courses')[match.params.id]
+  const current_course: Course = store.get('courses')[store.get('selectedCourse')]
   return (
     <Box height='100%'>
       <SidebarWrapper events={current_course.eventTypes} createEvent={createEvent}>
