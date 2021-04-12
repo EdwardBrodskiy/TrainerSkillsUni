@@ -14,6 +14,10 @@ export const Sidebar = ({ createEvent }: Props) => {
   const [courses, setCourses] = useState<Course[]>(store.get('courses'))
   const removeEventType = (index: number) => {
     const currentCourses: Course[] = store.get('courses')
+    if (hasEvents(currentCourses[0].eventTypes[index], currentCourses[0].events)) {
+      setCourses(currentCourses)
+      throw Error(`Events exist of type ${currentCourses[0].eventTypes[index].name}`)
+    }
     currentCourses[0].eventTypes.splice(index, 1)
     store.set('courses', currentCourses)
     setCourses(currentCourses)

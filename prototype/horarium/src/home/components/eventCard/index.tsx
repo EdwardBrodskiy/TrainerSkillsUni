@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Heading, IconButton } from '@chakra-ui/react'
+import { Flex, Heading, IconButton, useToast } from '@chakra-ui/react'
 import { CalendarEvent, CalendarEventType } from '../../../types'
 import { CloseIcon } from '@chakra-ui/icons'
 
@@ -13,6 +13,7 @@ type Props = {
 }
 
 export const EventCard = ({ event, createEvent, isRemovable, removeEventType }: Props) => {
+  const toast = useToast()
   return (
     <Flex
       p={3}
@@ -32,7 +33,17 @@ export const EventCard = ({ event, createEvent, isRemovable, removeEventType }: 
         size='sm'
         isDisabled={!isRemovable}
         onClick={(e) => {
-          removeEventType()
+          try {
+            removeEventType()
+          } catch (e) {
+            toast({
+              title: 'Invalid Input',
+              description: e.message,
+              status: 'error',
+              position: 'bottom-left',
+            })
+          }
+
           e.stopPropagation()
         }}
         icon={<CloseIcon />}
