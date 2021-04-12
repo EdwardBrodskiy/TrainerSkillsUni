@@ -21,8 +21,8 @@ const Routes = () => {
       <Box>
         <Switch>
           <Route exact key='route-login' path='/' component={Login} />
-          {isAuth() || <Redirect to='/' />}
-          <Route exact key='route-home' path='/home' component={Home} />
+          {!isAuth() && <Redirect to='/' />}
+          <Route key='route-home' path='/home' component={Home} />
           <Route exact key='route-createCourse' path='/create-course' component={CreateCourse} />
           <Redirect from='*' to='/' /> {/* TODO: add 404 page instead */}
         </Switch>
