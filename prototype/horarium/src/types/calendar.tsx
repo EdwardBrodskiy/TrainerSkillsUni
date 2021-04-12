@@ -29,11 +29,6 @@ export type CalendarEvent = {
   end_time: string
 }
 
-export type PrefillEventData = {
-  type?: CalendarEventType
-  startTime?: string
-}
-
 export type AvaliabilityTable = {
   fixed: string[]
   variable: string[]

@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import {
+  Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
+  HStack,
   Input,
   Modal,
   ModalBody,
@@ -15,13 +18,14 @@ import {
   Textarea,
   useToast,
 } from '@chakra-ui/react'
-import { CalendarEvent, CalendarEventType, Course, PrefillEventData } from '../../../types'
+import { CalendarEvent, CalendarEventType, Course } from '../../../types'
 import store from 'store'
 
 type Props = {
   isOpen: boolean
   onClose: () => void
-  prefilledData: PrefillEventData
+  prefilledData: Partial<CalendarEvent>
+  eventIndex: number
 }
 
 type InputElements = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -41,14 +45,23 @@ type FormElement = {
   touched: boolean
 }
 
-export const CreateEventModal = ({ onClose, isOpen, prefilledData }: Props) => {
+export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }: Props) => {
   const toast = useToast()
+  const isEdit: boolean = eventIndex !== -1
   const initialState: FormData = {
-    title: { value: '', error: false, touched: false },
-    description: { value: '', error: false, touched: true },
-    location: { value: '', error: false, touched: false },
-    startTime: { value: '', error: false, touched: false },
-    endTime: { value: '', error: false, touched: false },
+    title: { value: prefilledData.title || '', error: false, touched: isEdit },
+    description: { value: prefilledData.description || '', error: false, touched: true },
+    location: { value: prefilledData.location || '', error: false, touched: isEdit },
+    startTime: {
+      value: prefilledData.start_time || '',
+      error: false,
+      touched: prefilledData.start_time !== undefined,
+    },
+    endTime: {
+      value: prefilledData.end_time || '',
+      error: false,
+      touched: prefilledData.end_time !== undefined,
+    },
     type: {
       value: prefilledData.type?.name || '',
       error: false,
@@ -174,39 +187,60 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData }: Props) => {
         </ModalBody>
 
         <ModalFooter>
-          <Button
-            colorScheme='blue'
-            mr={3}
-            onClick={() => {
-              if (is_valid(formData)) {
-                const eventType = current_course.eventTypes.find(
-                  (type) => type.name === formData.type.value,
-                )
-                if (eventType !== undefined) {
-                  save_event(0, {
-                    title: formData.title.value,
-                    description: formData.description.value,
-                    type: eventType,
-                    location: formData.location.value,
-                    start_time: formData.startTime.value,
-                    end_time: formData.endTime.value,
-                  })
-                }
-                onClose()
-              } else {
-                toast({
-                  title: `Make sure you filled in all the fields`,
-                  status: 'error',
-                  isClosable: true,
-                })
-              }
-            }}
-          >
-            Create
-          </Button>
-          <Button variant='ghost' onClick={onClose}>
-            Cancel
-          </Button>
+          <Flex justify='space-between' width='100%'>
+            <Box>
+              {isEdit && (
+                <Button
+                  colorScheme='red'
+                  onClick={() => {
+                    delete_event(0, eventIndex)
+                    onClose()
+                  }}
+                >
+                  Delete
+                </Button>
+              )}
+            </Box>
+
+            <HStack>
+              <Button
+                colorScheme='blue'
+                onClick={() => {
+                  if (is_valid(formData)) {
+                    const eventType = current_course.eventTypes.find(
+                      (type) => type.name === formData.type.value,
+                    )
+                    if (eventType !== undefined) {
+                      save_event(0, {
+                        title: formData.title.value,
+                        description: formData.description.value,
+                        type: eventType,
+                        location: formData.location.value,
+                        start_time: formData.startTime.value,
+                        end_time: formData.endTime.value,
+                      })
+                      if (isEdit) {
+                        delete_event(0, eventIndex)
+                      }
+                    }
+                    onClose()
+                  } else {
+                    toast({
+                      title: `Make sure you filled in all the fields`,
+                      status: 'error',
+                      isClosable: true,
+                    })
+                  }
+                }}
+              >
+                {isEdit ? 'Update' : 'Create'}
+              </Button>
+
+              <Button variant='ghost' onClick={onClose}>
+                Cancel
+              </Button>
+            </HStack>
+          </Flex>
         </ModalFooter>
       </ModalContent>
     </Modal>
@@ -249,5 +283,11 @@ const is_valid = (values: FormData) => {
 const save_event = (course_index: number, event: CalendarEvent) => {
   const courses: Course[] = store.get('courses')
   courses[course_index].events.push(event)
+  store.set('courses', courses)
+}
+
+const delete_event = (course_index: number, event_index: number) => {
+  const courses: Course[] = store.get('courses')
+  courses[course_index].events.splice(event_index, 1)
   store.set('courses', courses)
 }

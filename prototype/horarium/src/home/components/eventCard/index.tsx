@@ -1,9 +1,9 @@
 import React from 'react'
 import { Flex, Heading, IconButton } from '@chakra-ui/react'
-import { CalendarEventType, PrefillEventData } from '../../../types'
+import { CalendarEvent, CalendarEventType } from '../../../types'
 import { CloseIcon } from '@chakra-ui/icons'
 
-export type CreateEventCaller = (data: PrefillEventData) => void
+export type CreateEventCaller = (data: Partial<CalendarEvent>, eventIndex?: number) => void
 
 type Props = {
   event: CalendarEventType

@@ -4,10 +4,15 @@ import { Day } from './components/day'
 import store from 'store'
 import { Course } from '../../../types'
 import { DayIndex } from './components/day_index'
+import { CreateEventCaller } from '../eventCard'
 
 const week_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
-export const Calendar = () => {
+type Props = {
+  createEvent: CreateEventCaller
+}
+
+export const Calendar = ({ createEvent }: Props) => {
   const { colorMode } = useColorMode()
   const altBgColor = { light: 'gray.300', dark: 'gray.600' }
   const scale = 64
@@ -28,11 +33,24 @@ export const Calendar = () => {
     </Box>
   ))
   const day_events = week_days.map((day, day_index) => {
-    const events = current_course.events.filter((event) => {
+    const eventIndexRefs: number[] = []
+    const events = current_course.events.filter((event, index) => {
       const time = new Date(event.start_time)
-      return (time.getDay() + 6) % 7 === day_index
+      if ((time.getDay() + 6) % 7 === day_index) {
+        eventIndexRefs.push(index)
+        return true
+      }
+      return false
     })
-    return <Day key={day} events={events} scale={scale} />
+    return (
+      <Day
+        key={day}
+        events={events}
+        eventIndexRefs={eventIndexRefs}
+        scale={scale}
+        createEvent={createEvent}
+      />
+    )
   })
 
   return (

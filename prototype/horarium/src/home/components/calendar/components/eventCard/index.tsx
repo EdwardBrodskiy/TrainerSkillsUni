@@ -1,4 +1,4 @@
-import { Box, Heading, Text } from '@chakra-ui/react'
+import { Box, BoxProps, Heading, Text } from '@chakra-ui/react'
 import React from 'react'
 import { CalendarEvent } from '../../../../../types'
 import dayjs from 'dayjs'
@@ -7,7 +7,7 @@ type Props = {
   event: CalendarEvent
   scale: number
 }
-export const EventCard = ({ event, scale }: Props) => {
+export const EventCard = ({ event, scale, ...rest }: Props & BoxProps) => {
   const start_time = new Date(event.start_time)
   const end_time = new Date(event.end_time)
   const minute_shift = Math.round((start_time.getMinutes() / 60) * scale)
@@ -15,6 +15,7 @@ export const EventCard = ({ event, scale }: Props) => {
   const gap_jumps = Math.floor(duration - 4 / scale)
   return (
     <Box
+      {...rest}
       marginTop={`${minute_shift}px`}
       height={`${Math.round(duration * scale) + gap_jumps * 4}px`}
       p={2}
