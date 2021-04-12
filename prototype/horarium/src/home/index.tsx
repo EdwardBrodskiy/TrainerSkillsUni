@@ -6,11 +6,10 @@ import { Course, PrefillEventData } from '../types'
 import { CreateEventModal } from './components/createEvent'
 import { Searchbar } from './components/searchbar'
 import store from 'store'
-import { RouteComponentProps } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
-type TParams =  { id: string };
-
-export const Home = ({ match }: RouteComponentProps<TParams>) => {
+export const Home = () => {
+  const history = useHistory()
   const [eventData, setEventData] = useState<PrefillEventData>({})
   const {
     isOpen: isCreateEventOpen,
@@ -21,7 +20,18 @@ export const Home = ({ match }: RouteComponentProps<TParams>) => {
     await setEventData(data)
     onCreateEventOpen()
   }
-  const current_course: Course = store.get('courses')[store.get('selectedCourse')]
+  const selected_course = () => {
+    const course = store.get('session').selectedCourse
+    if (course !== undefined) {
+      return course
+    } else { 
+      /*This works but it creates a wall of errors, 
+      to get here clear selectedCourse from memory and enter /home in URL*/
+      history.push('/create-course')
+      window.location.reload()
+    }
+  }
+  const current_course: Course = store.get('courses')[selected_course()]
   return (
     <Box height='100%'>
       <SidebarWrapper events={current_course.eventTypes} createEvent={createEvent}>

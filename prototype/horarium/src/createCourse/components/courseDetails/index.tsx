@@ -5,6 +5,7 @@ import { AddCourse } from './components/addCourse'
 import { EditCourse } from './components/editCourse'
 import { Link as ReactLink } from 'react-router-dom'
 import store from 'store'
+import { Session } from '../../../schema'
 
 type Props = {
   course: Course
@@ -56,5 +57,7 @@ export const CourseDetails = ({ course }: Props) => {
 }
 
 const select_course = (courseId: number) => {
-  store.set('selectedCourse', courseId)
+  const session: Session = store.get('session')
+  session.selectedCourse = courseId
+  store.set('session', session)
 }

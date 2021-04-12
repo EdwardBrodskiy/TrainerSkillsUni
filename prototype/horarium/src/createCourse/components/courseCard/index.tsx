@@ -11,7 +11,7 @@ type Props = {
 export const CourseCard = ({ course, setCurrentCourse }: Props) => {
   const { colorMode } = useColorMode()
   const bgColor = { light: 'gray.200', dark: 'gray.700' }
-  var thisCourse: Course = store.get('courses')[course.courseId]
+  const thisCourse: Course = store.get('courses')[course.courseId]
   return (
     <Box
       p={3}

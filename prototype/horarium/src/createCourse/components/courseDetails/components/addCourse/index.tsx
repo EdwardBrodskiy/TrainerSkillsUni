@@ -103,7 +103,7 @@ export const AddCourse = () => {
         />
       </FormControl>
 
-      <FormLabel>Enroled Groups:</FormLabel>{/* TODO: Make the switches changeable(not readOnly) and functional to the form*/}
+      <FormLabel>Enrolled Groups:</FormLabel>{/* TODO: Make the switches changeable(not readOnly) and functional to the form*/}
       <FormControl display='flex' alignItems='center'>
         <FormLabel mb='5' mr='1'>
           EECS:
@@ -130,7 +130,7 @@ export const AddCourse = () => {
                 module: formData.module.value,
                 description: formData.description.value,
                 courseId: store.get('courses').length,
-                enroled_groups: [
+                enrolled_groups: [
                   //Temporary default groups
                   { name: 'EECS', consultants: [] },
                   { name: 'ASDF', consultants: [] },

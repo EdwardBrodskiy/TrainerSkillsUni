@@ -9,7 +9,7 @@ export type Course = {
   module: string
   description?: string
   courseId: string
-  enroled_groups: Group[]
+  enrolled_groups: Group[]
   schedulers: Scheduler[]
   events: CalendarEvent[]
   eventTypes: CalendarEventType[]

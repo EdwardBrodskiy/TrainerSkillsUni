@@ -29,8 +29,8 @@ export const EditCourse = ({ course, isEditing }: Props) => {
           <Modules modules={course.module} isEditing={isEditing} />
         </CourseItem>
 
-        <CourseItem title='Enroled Groups'>
-          <Groups groups={course.enroled_groups} />
+        <CourseItem title='Enrolled Groups'>
+          <Groups groups={course.enrolled_groups} />
         </CourseItem>
 
         <CourseItem title='Involved Schedulers'>
@@ -40,6 +40,10 @@ export const EditCourse = ({ course, isEditing }: Props) => {
         <CourseItem title='Course Events'>
           TODO: add event but remember the events have colors in the eventType don't be silly this
           time)
+        </CourseItem>
+
+        <CourseItem title='Course Length'>
+          <Text>{course.schedulers.map((scheduler) => scheduler.name)}</Text>
         </CourseItem>
       </VStack>
     </Box>

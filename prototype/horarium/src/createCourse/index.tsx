@@ -7,7 +7,7 @@ import store from 'store'
 
 export const CreateCourse = () => {
   const courseList: Course[] = store.get('courses')
-  var defaultCourse = courseList[0]
+  const defaultCourse = courseList[0]
   const [currentCourse, setCurrentCourse] = useState(defaultCourse)
   return (
     <Box height='100%'>
