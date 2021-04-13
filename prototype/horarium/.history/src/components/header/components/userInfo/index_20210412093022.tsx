@@ -3,9 +3,6 @@ import { Button, HStack, Image, Text } from '@chakra-ui/react'
 import { useHistory } from 'react-router'
 import store from 'store'
 
-export const SenddEmail = () =>{
-  window.alert("Test") 
-  }
 export const UserInfo = () => {
   const history = useHistory()
   return (
