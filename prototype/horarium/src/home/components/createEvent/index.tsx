@@ -21,6 +21,7 @@ import {
 import { CalendarEvent, CalendarEventType, Course, Role } from '../../../types'
 import store from 'store'
 import { isPermited } from '../../../auth'
+import { SearchSelect } from '../../../components/searchSelect/inces'
 
 type Props = {
   isOpen: boolean
@@ -177,6 +178,11 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
               isInvalid={formData.endTime.error}
               {...commonFormElementProps}
             />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Trainer</FormLabel>
+            <SearchSelect />
           </FormControl>
 
           <FormControl>
