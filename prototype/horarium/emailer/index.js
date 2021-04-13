@@ -1,8 +1,4 @@
-import React from 'react'
-import { Button, HStack, Image, Text } from '@chakra-ui/react'
-import { useHistory } from 'react-router'
-import store from 'store'
-import { google } from 'googleapis'
+const { google } = require('googleapis')
 const nodemailer = require('nodemailer')
 
 const CLIENT_ID = '37885473957-3rajlmgj7ma1ikemb34bo5jh1q11pu12.apps.googleusercontent.com'
@@ -43,10 +39,4 @@ const sendMail = () => {
   }
 }
 
-// export const EmailButton = () => {
-//   return (
-//     <HStack spacing={4}>
-//       <Button onClick={() => sendMail()}>Send Email</Button>
-//     </HStack>
-//   )
-// }
+sendMail()
