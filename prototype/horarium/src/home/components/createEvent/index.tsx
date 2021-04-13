@@ -18,8 +18,9 @@ import {
   Textarea,
   useToast,
 } from '@chakra-ui/react'
-import { CalendarEvent, CalendarEventType, Course } from '../../../types'
+import { CalendarEvent, CalendarEventType, Course, Role } from '../../../types'
 import store from 'store'
+import { isPermited } from '../../../auth'
 
 type Props = {
   isOpen: boolean
@@ -48,6 +49,7 @@ type FormElement = {
 export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }: Props) => {
   const toast = useToast()
   const isEdit: boolean = eventIndex !== -1
+  const permitedToEdit = isPermited(Role.Scheduler)
   const initialState: FormData = {
     title: { value: prefilledData.title || '', error: false, touched: isEdit },
     description: { value: prefilledData.description || '', error: false, touched: true },
@@ -71,6 +73,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
   const [formData, setFormData] = useState<FormData>(initialState)
 
   const updateElementState: React.ChangeEventHandler<InputElements> = (event) => {
+    if (!permitedToEdit) return
     const { name, value } = event.target
     const error = is_element_invalid(name, value, true, formData)
     setFormData((prevState) => ({ ...prevState, [name]: { touched: true, value, error } }))
@@ -93,6 +96,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
     onChange: updateElementState,
     onBlur: updateElementState,
     errorBorderColor: 'crimson',
+    isReadOnly: !permitedToEdit,
   }
   const location_options = store.get('locations').map((item: string, index: number) => (
     <option key={index} value={item}>
@@ -108,10 +112,12 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
     ),
   )
   return (
-    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Create Event</ModalHeader>
+        <ModalHeader>
+          {isEdit ? (permitedToEdit ? 'View/Edit Event' : 'View Event') : 'Create Event'}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <FormControl>
@@ -187,60 +193,62 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
         </ModalBody>
 
         <ModalFooter>
-          <Flex justify='space-between' width='100%'>
-            <Box>
-              {isEdit && (
+          {permitedToEdit && (
+            <Flex justify='space-between' width='100%'>
+              <Box>
+                {isEdit && (
+                  <Button
+                    colorScheme='red'
+                    onClick={() => {
+                      delete_event(0, eventIndex)
+                      onClose()
+                    }}
+                  >
+                    Delete
+                  </Button>
+                )}
+              </Box>
+
+              <HStack>
                 <Button
-                  colorScheme='red'
+                  colorScheme='blue'
                   onClick={() => {
-                    delete_event(0, eventIndex)
-                    onClose()
+                    if (is_valid(formData)) {
+                      const eventType = current_course.eventTypes.find(
+                        (type) => type.name === formData.type.value,
+                      )
+                      if (eventType !== undefined) {
+                        save_event(0, {
+                          title: formData.title.value,
+                          description: formData.description.value,
+                          type: eventType,
+                          location: formData.location.value,
+                          start_time: formData.startTime.value,
+                          end_time: formData.endTime.value,
+                        })
+                        if (isEdit) {
+                          delete_event(0, eventIndex)
+                        }
+                      }
+                      onClose()
+                    } else {
+                      toast({
+                        title: `Make sure you filled in all the fields`,
+                        status: 'error',
+                        isClosable: true,
+                      })
+                    }
                   }}
                 >
-                  Delete
+                  {isEdit ? 'Update' : 'Create'}
                 </Button>
-              )}
-            </Box>
 
-            <HStack>
-              <Button
-                colorScheme='blue'
-                onClick={() => {
-                  if (is_valid(formData)) {
-                    const eventType = current_course.eventTypes.find(
-                      (type) => type.name === formData.type.value,
-                    )
-                    if (eventType !== undefined) {
-                      save_event(0, {
-                        title: formData.title.value,
-                        description: formData.description.value,
-                        type: eventType,
-                        location: formData.location.value,
-                        start_time: formData.startTime.value,
-                        end_time: formData.endTime.value,
-                      })
-                      if (isEdit) {
-                        delete_event(0, eventIndex)
-                      }
-                    }
-                    onClose()
-                  } else {
-                    toast({
-                      title: `Make sure you filled in all the fields`,
-                      status: 'error',
-                      isClosable: true,
-                    })
-                  }
-                }}
-              >
-                {isEdit ? 'Update' : 'Create'}
-              </Button>
-
-              <Button variant='ghost' onClick={onClose}>
-                Cancel
-              </Button>
-            </HStack>
-          </Flex>
+                <Button variant='ghost' onClick={onClose}>
+                  Cancel
+                </Button>
+              </HStack>
+            </Flex>
+          )}
         </ModalFooter>
       </ModalContent>
     </Modal>
