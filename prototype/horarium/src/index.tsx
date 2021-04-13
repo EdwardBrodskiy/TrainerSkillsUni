@@ -1,9 +1,8 @@
 import React from 'react'
-import {useEffect} from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import * as serviceWorker from './serviceWorker'
-import { Router } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import './App.css'
 import { CSSReset, ChakraProvider } from '@chakra-ui/react'
 import Routes from './routes'
@@ -18,9 +17,9 @@ function App() {
   return (
     <ChakraProvider>
       <CSSReset />
-      <Router history={history}>
+      <HashRouter>
         <Routes />
-      </Router>
+      </HashRouter>
     </ChakraProvider>
   )
 }
