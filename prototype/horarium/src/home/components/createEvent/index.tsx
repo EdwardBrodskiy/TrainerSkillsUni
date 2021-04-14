@@ -229,7 +229,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                       )
 
                       if (trainer !== undefined && eventType !== undefined) {
-                        save_event(0, {
+                        save_event(currentCourse, {
                           title: formData.title.value,
                           description: formData.description.value,
                           type: eventType,
@@ -239,7 +239,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                           trainer,
                         })
                         if (isEdit) {
-                          delete_event(0, eventIndex)
+                          delete_event(currentCourse, eventIndex)
                         }
                       }
                       onClose()
