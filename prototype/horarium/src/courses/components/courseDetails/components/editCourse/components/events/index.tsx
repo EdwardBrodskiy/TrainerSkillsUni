@@ -1,39 +1,28 @@
 import React from 'react'
-import { Flex, HStack, Text } from '@chakra-ui/react'
+import { HStack, Wrap } from '@chakra-ui/react'
 import { CalendarEvent } from '../../../../../../../types'
-import dayjs from 'dayjs'
+import { EventCard } from './components/event'
 
 type Props = {
   events: CalendarEvent[]
 }
 
 export const Events = ({ events }: Props) => {
-  const course_events = events.map((event, index) => {
-    const start_time = new Date(event.start_time)
-    const end_time = new Date(event.end_time)
-    const duration = end_time.getTime() - start_time.getTime() - (1000*3600)
-    return (
-      <Flex
-        key={index}
-        size='lg'
-        p={2}
-        rounded={8}
-        bg={event.type.color || 'gray'}
-        direction='column'
-        marginX={1}
-        position='relative'
-        borderLeft='4px'
-        borderColor='rgba(0,0,0,0.4)'
-      >
-        <Text>Event: {event.title}</Text>
-        <Text>Location: {event.location}</Text>
-        <Text>Duration: {dayjs(duration).format('HH:mm')}h </Text>
-      </Flex>
-    )
-  })
+  const course_events = events.map((event, index) => <EventCard event={event} />)
   return (
-    <HStack direction='row' spacing={4}>
+    <Wrap
+      direction='row'
+      spacing={4}
+      height='10em'
+      overflowY='scroll'
+      sx={{
+        '::-webkit-scrollbar': { display: 'none' },
+        msOverFlowStyle: 'none',
+        scrollbarWidth: 'none',
+        scrollSnapType: 'y manditory',
+      }}
+    >
       {course_events}
-    </HStack>
+    </Wrap>
   )
 }

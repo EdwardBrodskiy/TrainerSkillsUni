@@ -1,5 +1,16 @@
 import React, { useState } from 'react'
-import { Box, Button, ButtonGroup, Divider, Heading, Link, Stack, Text, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Divider,
+  Heading,
+  HStack,
+  Link,
+  Stack,
+  Text,
+  VStack,
+} from '@chakra-ui/react'
 import { Course, Role } from '../../../../../types'
 import { Groups } from './components/groups'
 import { Description } from './components/description'
@@ -20,7 +31,7 @@ export const EditCourse = ({ course }: Props) => {
   const [isEditing, setIsEditing] = useState(false)
 
   const editButton = (setIsEditing: any) => {
-    if(isPermited(Role.Scheduler)) {
+    if (isPermited(Role.Scheduler)) {
       return isEditing ? (
         <ButtonGroup>
           <Button
@@ -47,14 +58,24 @@ export const EditCourse = ({ course }: Props) => {
     courses[course_index].description = newDescription
     courses[course_index].module = newModule
     store.set('courses', courses)
-    window.location.reload() 
+    window.location.reload()
   }
-  
+
   return (
     <Box>
-      <Heading m={8} size='2xl'>
-        {course.name}
-      </Heading>
+      <HStack justify='space-between'>
+        <Heading m={8} size='2xl'>
+          {course.name}
+        </Heading>
+        <Stack direction='row' justify='space-between' mx='10%' mt={4}>
+          <Link as={ReactLink} to={'/home'}>
+            <Button colorScheme='green' variant='solid'>
+              To Calendar
+            </Button>
+          </Link>
+          {editButton(setIsEditing)}
+        </Stack>
+      </HStack>
 
       <VStack divider={<Divider />} mr='10%' fontSize={22} textAlign='left'>
         <CourseItem title='Course ID'>{course.courseId}</CourseItem>
@@ -75,9 +96,9 @@ export const EditCourse = ({ course }: Props) => {
           <Groups groups={course.enrolled_groups} />
         </CourseItem>
 
-        <CourseItem title='Involved Schedulers'>
+        {/* <CourseItem title='Involved Schedulers'>
           <Text>{course.schedulers.map((scheduler) => scheduler.name)}</Text>
-        </CourseItem>
+        </CourseItem> */}
 
         <CourseItem title='Course Events'>
           <Events events={course.events} />
@@ -87,14 +108,6 @@ export const EditCourse = ({ course }: Props) => {
           <Text>{course.schedulers.map((scheduler) => scheduler.name)}</Text>
         </CourseItem>
       </VStack>
-      <Stack direction='row' justify='space-between' mx='20%' mt={4}>
-        <Link as={ReactLink} to={'/home'}>
-          <Button colorScheme='green' variant='solid'>
-            To Calendar
-          </Button>
-        </Link>
-        {editButton(setIsEditing)}
-      </Stack>
     </Box>
   )
 }
