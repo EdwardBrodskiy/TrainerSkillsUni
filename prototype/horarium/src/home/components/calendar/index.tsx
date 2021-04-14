@@ -24,6 +24,7 @@ import advancedFormat from 'dayjs/plugin/advancedFormat'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import { ArrowBackIcon, InfoIcon } from '@chakra-ui/icons'
 import { AuthCourse } from '../../../auth'
+import { useHistory } from 'react-router'
 
 dayjs.extend(advancedFormat)
 dayjs.extend(weekOfYear)
@@ -39,11 +40,16 @@ export const Calendar = ({ createEvent }: Props) => {
   const altBgColor = { light: 'gray.300', dark: 'gray.600' }
   const scale = 64
 
+  const history = useHistory()
+
   const current_course: Course = store.get('courses')[AuthCourse()]
 
-  const earliest_event_time = Math.min(
+  let earliest_event_time = Math.min(
     ...current_course.events.map((event) => new Date(event.start_time).getTime()),
   )
+  if (earliest_event_time === Infinity) {
+    earliest_event_time = new Date().getTime()
+  }
   const [selectedWeek, setSelectedWeek] = useState<string>(
     dayjs(earliest_event_time).format('YYYY-[W]w'),
   )
@@ -96,19 +102,17 @@ export const Calendar = ({ createEvent }: Props) => {
   return (
     <Box>
       <Flex mb={4} align='center' justify='space-between'>
-        <HStack spacing={10} isTruncated>
+        <HStack spacing={10}>
           <Button
             aria-label='back to course'
             size='lg'
             bg={altBgColor[colorMode]}
             leftIcon={<ArrowBackIcon />}
+            onClick={() => history.push('/courses')}
           >
             Back to Course
           </Button>
           <Heading size='2xl'>{current_course.name}</Heading>
-          <Text isTruncated fontSize='lg'>
-            {current_course.description}
-          </Text>
         </HStack>
         <HStack>
           <Heading size='sm'>Select week:</Heading>
@@ -131,8 +135,10 @@ export const Calendar = ({ createEvent }: Props) => {
         </HStack>
       </Flex>
       <Grid key='labels' templateColumns='7% repeat(7, 13%)' gap={1} mb={1}>
-        <Center textAlign='center' bg={colorMode === 'light' ? 'gray.400' : 'gray.500'} as='i'>
-          Scroll to see other times
+        <Center textAlign='center' bg={colorMode === 'light' ? 'gray.400' : 'gray.500'}>
+          <Text as='i' noOfLines={2}>
+            Scroll to see other times
+          </Text>
         </Center>
         {days}
       </Grid>

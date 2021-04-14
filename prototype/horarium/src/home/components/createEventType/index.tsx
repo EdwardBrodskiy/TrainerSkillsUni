@@ -12,18 +12,19 @@ export const CreateEventType = ({ createEventType }: Props) => {
 
   const { colorMode } = useColorMode()
   const bgInputs = { light: 'gray.300', dark: 'gray.600' }
-  const bgPlaceholder = { light: 'gray.200', dark: 'gray.700' }
+  const bgPlaceholder = { light: 'teal', dark: 'gray.700' }
 
   const [bg, setBg] = useState<string>('')
   const [title, setTitle] = useState<string>('')
 
   return (
-    <Box p={3} rounded={6} fontSize={18} bg={bg || bgPlaceholder[colorMode]}>
+    <Box p={3} rounded={6} fontSize={18} color='white' bg={bg || bgPlaceholder[colorMode]}>
       <Input
         placeholder='Event Name'
         borderWidth={4}
         borderColor={bgInputs[colorMode]}
         value={title}
+        fontSize={18}
         onChange={(e) => setTitle(e.target.value)}
         boxShadow='small'
       />
@@ -39,6 +40,7 @@ export const CreateEventType = ({ createEventType }: Props) => {
         />
         <Button
           aria-label='create event type'
+          colorScheme='teal'
           onClick={() => {
             try {
               createEventType({ name: title, color: bg })
