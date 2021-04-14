@@ -18,7 +18,6 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { IconButton, useColorMode } from '@chakra-ui/react'
-import { Modules } from '../../../types'
 import { Search2Icon } from '@chakra-ui/icons'
 import store from 'store'
 import { useState } from 'react'
@@ -29,7 +28,7 @@ export const Searchbar = () => {
   const bgColor = { light: 'gray.200', dark: 'gray.700' }
   const { isOpen, onOpen, onClose } = useDisclosure()
   const location_results = store.get('locations').filter((item: string, index: number) => {
-    if (searchTerm == '') return ''
+    if (searchTerm === '') return ''
     else if (item.toLowerCase().includes(searchTerm.toLowerCase())) {
       return item
     }

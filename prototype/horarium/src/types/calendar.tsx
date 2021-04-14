@@ -6,11 +6,11 @@ export type Calendar = {
 
 export type Course = {
   name: string
-  module: Modules
+  module: string
   description?: string
   courseId: string
-  enroled_groups: Group[]
-  shedulers: Scheduler[]
+  enrolled_groups: Group[]
+  schedulers: Scheduler[]
   events: CalendarEvent[]
   eventTypes: CalendarEventType[]
 }
@@ -32,12 +32,4 @@ export type CalendarEvent = {
 export type AvaliabilityTable = {
   fixed: string[]
   variable: string[]
-}
-
-export enum Modules {
-  Databases,
-  Accounting,
-  WebDev,
-  Business,
-  // TODO: add more or make editiable
 }

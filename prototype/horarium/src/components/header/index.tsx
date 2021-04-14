@@ -33,12 +33,13 @@ export const Header = () => {
       >
         <Flex align='center' justifyContent='space-between' w='100%' h='100%'>
           <HStack spacing={10} alignContent='baseline'>
-            <Link to='/home'>
+            <Link to='/courses'>
               <Image alt='logo' src={pageLogo} height='3.5rem' />
             </Link>
             {isAuth() && (
               <HStack>
-                <NavItem to='/home'>Home</NavItem>
+                <NavItem to='/courses'>Home</NavItem>
+                <NavItem to='/courses'>Courses</NavItem>
               </HStack>
             )}
           </HStack>

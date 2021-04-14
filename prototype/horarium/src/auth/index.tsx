@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom'
 import store from 'store'
 import { Session } from '../schema'
 import { Role } from '../types'
@@ -13,4 +14,15 @@ export const isPermited = (role: Role) => {
     return session.user.permission <= role
   }
   return false
+}
+
+export const AuthCourse = () => {
+  const history = useHistory()
+  const course = store.get('session').selectedCourse
+  if (course !== undefined) {
+    return course
+  } else {
+    history.push('/courses')
+    window.location.reload()
+  }
 }

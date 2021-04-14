@@ -20,7 +20,8 @@ import {
 } from '@chakra-ui/react'
 import { CalendarEvent, CalendarEventType, Course, Role } from '../../../types'
 import store from 'store'
-import { isPermited } from '../../../auth'
+import { isPermited, AuthCourse } from '../../../auth'
+
 
 type Props = {
   isOpen: boolean
@@ -48,6 +49,7 @@ type FormElement = {
 
 export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }: Props) => {
   const toast = useToast()
+  const currentCourse = AuthCourse()
   const isEdit: boolean = eventIndex !== -1
   const permitedToEdit = isPermited(Role.Scheduler)
   const initialState: FormData = {
@@ -103,7 +105,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
       {item}
     </option>
   ))
-  const current_course: Course = store.get('courses')[0] //TODO: add course selection and creation
+  const current_course: Course = store.get('courses')[currentCourse] //Temp, no authentication of selected course
   const eventType_options = current_course.eventTypes.map(
     (type: CalendarEventType, index: number) => (
       <option key={index} value={type.name}>
@@ -208,47 +210,46 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                   </Button>
                 )}
               </Box>
-
-              <HStack>
-                <Button
-                  colorScheme='blue'
-                  onClick={() => {
-                    if (is_valid(formData)) {
-                      const eventType = current_course.eventTypes.find(
-                        (type) => type.name === formData.type.value,
-                      )
-                      if (eventType !== undefined) {
-                        save_event(0, {
-                          title: formData.title.value,
-                          description: formData.description.value,
-                          type: eventType,
-                          location: formData.location.value,
-                          start_time: formData.startTime.value,
-                          end_time: formData.endTime.value,
-                        })
-                        if (isEdit) {
-                          delete_event(0, eventIndex)
-                        }
-                      }
-                      onClose()
-                    } else {
-                      toast({
-                        title: `Make sure you filled in all the fields`,
-                        status: 'error',
-                        isClosable: true,
+           
+             <HStack>
+              <Button
+                colorScheme='blue'
+                onClick={() => {
+                  if (is_valid(formData)) {
+                    const eventType = current_course.eventTypes.find(
+                      (type) => type.name === formData.type.value,
+                    )
+                    if (eventType !== undefined) {
+                      save_event(currentCourse, {
+                        title: formData.title.value,
+                        description: formData.description.value,
+                        type: eventType,
+                        location: formData.location.value,
+                        start_time: formData.startTime.value,
+                        end_time: formData.endTime.value,
                       })
+                      if (isEdit) {
+                        delete_event(currentCourse, eventIndex)
+                      }
                     }
-                  }}
-                >
-                  {isEdit ? 'Update' : 'Create'}
-                </Button>
+                    onClose()
+                  } else {
+                    toast({
+                      title: `Make sure you filled in all the fields`,
+                      status: 'error',
+                      isClosable: true,
+                    })
+                  }
+                }}
+              >
+                {isEdit ? 'Update' : 'Create'}
+              </Button>
 
-                <Button variant='ghost' onClick={onClose}>
-                  Cancel
-                </Button>
-              </HStack>
-            </Flex>
-          )}
+              <Button variant='ghost' onClick={onClose}>
+                Cancel
+              </Button>
+            </HStack>
+          </Flex>
         </ModalFooter>
       </ModalContent>
     </Modal>

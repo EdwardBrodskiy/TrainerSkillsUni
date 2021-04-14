@@ -5,7 +5,8 @@ import { EventCard, CreateEventCaller } from '../eventCard'
 import { CalendarEvent, CalendarEventType, Course, Role } from '../../../types'
 import { CreateEventType } from '../createEventType'
 import store from 'store'
-import { isPermited } from '../../../auth'
+import { isPermited, AuthCourse } from '../../../auth'
+
 
 type Props = {
   createEvent: CreateEventCaller
@@ -13,24 +14,26 @@ type Props = {
 
 export const Sidebar = ({ createEvent }: Props) => {
   const [courses, setCourses] = useState<Course[]>(store.get('courses'))
+  const selectedCourse = AuthCourse()
+  
   const removeEventType = (index: number) => {
     const currentCourses: Course[] = store.get('courses')
-    if (hasEvents(currentCourses[0].eventTypes[index], currentCourses[0].events)) {
+    if (hasEvents(currentCourses[selectedCourse].eventTypes[index], currentCourses[selectedCourse].events)) {
       setCourses(currentCourses)
-      throw Error(`Events exist of type ${currentCourses[0].eventTypes[index].name}`)
+      throw Error(`Events exist of type ${currentCourses[selectedCourse].eventTypes[index].name}`)
     }
-    currentCourses[0].eventTypes.splice(index, 1)
+    currentCourses[selectedCourse].eventTypes.splice(index, 1)
     store.set('courses', currentCourses)
     setCourses(currentCourses)
   }
-  const eventCards = courses[0].eventTypes.map((eventType, index) => {
+  const eventCards = courses[selectedCourse].eventTypes.map((eventType, index) => {
     return (
       <EventCard
         key={index}
         event={eventType}
         createEvent={createEvent}
         removeEventType={() => removeEventType(index)}
-        isRemovable={!hasEvents(eventType, courses[0].events)}
+        isRemovable={!hasEvents(eventType, courses[selectedCourse].events)}
       />
     )
   })
@@ -42,7 +45,7 @@ export const Sidebar = ({ createEvent }: Props) => {
     if (newEventType.color === '') {
       throw Error('Select a background')
     }
-    currentCourses[0].eventTypes.forEach((eventType) => {
+    currentCourses[selectedCourse].eventTypes.forEach((eventType) => {
       if (eventType.name === newEventType.name) {
         throw Error(`Event type with the name ${eventType.name} already exists`)
       }
@@ -51,7 +54,7 @@ export const Sidebar = ({ createEvent }: Props) => {
       }
     })
 
-    currentCourses[0].eventTypes.push(newEventType)
+    currentCourses[selectedCourse].eventTypes.push(newEventType)
     store.set('courses', currentCourses)
     setCourses(currentCourses)
   }
