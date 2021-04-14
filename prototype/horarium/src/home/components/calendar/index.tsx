@@ -39,7 +39,6 @@ export const Calendar = ({ createEvent }: Props) => {
   const { colorMode } = useColorMode()
   const altBgColor = { light: 'gray.300', dark: 'gray.600' }
   const scale = 64
-
   const history = useHistory()
 
   const current_course: Course = store.get('courses')[AuthCourse()]

@@ -1,5 +1,7 @@
 import React, { ChangeEventHandler, useState } from 'react'
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Drawer,
@@ -35,7 +37,12 @@ export const SearchSelect = ({ name, value, onChange, errorBorderColor, isReadOn
   const [matchList, setMatchList] = useState<Trainer[]>(all_trainers)
   const onSearchChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setMatchList(
-      all_trainers.filter((trainer) => trainer.name.match(new RegExp(event.target.value, 'i'))),
+      all_trainers.filter(
+        (trainer) =>
+          trainer.name.match(new RegExp(event.target.value, 'i')) ||
+          trainer.skills.filter((skill) => skill.match(new RegExp(event.target.value, 'i')))
+            .length > 0,
+      ),
     )
   }
 
@@ -69,7 +76,14 @@ export const SearchSelect = ({ name, value, onChange, errorBorderColor, isReadOn
                 <Input placeholder='Trainer Name' onChange={onSearchChange} />
               </InputGroup>
 
-              {found_trainers}
+              {found_trainers.length > 0 ? (
+                found_trainers
+              ) : (
+                <Alert status='warning'>
+                  <AlertIcon />
+                  No matches found
+                </Alert>
+              )}
             </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>

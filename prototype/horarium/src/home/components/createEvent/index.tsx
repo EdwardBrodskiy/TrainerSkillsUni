@@ -22,6 +22,7 @@ import { CalendarEvent, CalendarEventType, Course, Role, Trainer, User } from '.
 import store from 'store'
 
 import { isPermited, AuthCourse } from '../../../auth'
+import dayjs from 'dayjs'
 
 import { SearchSelect } from '../../../components/searchSelect'
 import dayjs from 'dayjs'
@@ -151,7 +152,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
     return itCollides
   }
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={isEdit}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
@@ -243,20 +244,35 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
         </ModalBody>
 
         <ModalFooter>
-          <Flex justify='space-between' width='100%'>
-            <Box>
-              {isEdit && (
+          {permitedToEdit && (
+            <Flex justify='space-between' width='100%'>
+              <Box>
+                {isEdit && (
+                  <Button
+                    colorScheme='red'
+                    onClick={() => {
+                      if (isEdit) {
+                        delete_event(currentCourse, eventIndex)
+                        onClose()
+                      }
+                    }}
+                  >
+                    Delete
+                  </Button>
+                )}
+              </Box>
+
+              <HStack>
                 <Button
-                  colorScheme='red'
+                  colorScheme='blue'
                   onClick={() => {
                     if (is_valid(formData)) {
                       const eventType = current_course.eventTypes.find(
                         (type) => type.name === formData.type.value,
                       )
-                      const trainer: Trainer | undefined = users.find(
+                      const trainer = users.find(
                         (user: User): user is Trainer => user.name === formData.trainer.value,
                       )
-
                       if (trainer !== undefined && eventType !== undefined) {
                         save_event(currentCourse, {
                           title: formData.title.value,
@@ -281,58 +297,14 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                     }
                   }}
                 >
-                  Delete
+                  {isEdit ? 'Update' : 'Create'}
                 </Button>
-              )}
-            </Box>
-
-            <HStack>
-              <Button
-                colorScheme='blue'
-                onClick={() => {
-                  if (is_valid(formData)) {
-                    const eventType = current_course.eventTypes.find(
-                      (type) => type.name === formData.type.value,
-                    )
-                    const trainer = users.find(
-                      (user: User): user is Trainer => user.name === formData.trainer.value,
-                    )
-                    if (
-                      trainer !== undefined &&
-                      eventType !== undefined &&
-                      !timeCourseCollision()
-                    ) {
-                      save_event(currentCourse, {
-                        title: formData.title.value,
-                        description: formData.description.value,
-                        type: eventType,
-                        location: formData.location.value,
-                        start_time: formData.startTime.value,
-                        end_time: formData.endTime.value,
-                        trainer,
-                      })
-                      if (isEdit) {
-                        delete_event(currentCourse, eventIndex)
-                      }
-                    }
-                    onClose()
-                  } else {
-                    toast({
-                      title: `Make sure you filled in all the fields`,
-                      status: 'error',
-                      isClosable: true,
-                    })
-                  }
-                }}
-              >
-                {isEdit ? 'Update' : 'Create'}
-              </Button>
-
-              <Button variant='ghost' onClick={onClose}>
-                Cancel
-              </Button>
-            </HStack>
-          </Flex>
+                <Button variant='ghost' onClick={onClose}>
+                  Cancel
+                </Button>
+              </HStack>
+            </Flex>
+          )}
         </ModalFooter>
       </ModalContent>
     </Modal>

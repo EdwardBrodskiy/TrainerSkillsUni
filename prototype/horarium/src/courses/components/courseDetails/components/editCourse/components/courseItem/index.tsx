@@ -8,7 +8,7 @@ type Props = {
 export const CourseItem = ({ title, children }: Props & PropsWithChildren<{}>) => {
   return (
     <Flex direction='row' mb='2' justify='space-between' align='center' width='100%'>
-      <Heading fontWeight='bold' width='30%' textAlign='right' mr={10} my={3}>
+      <Heading fontWeight='bold' width='30%' textAlign='right' mr={10} mt={3}>
         {title}
       </Heading>
       <Box flex='1'>{children}</Box>
