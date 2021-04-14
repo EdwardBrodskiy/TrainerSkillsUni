@@ -2,11 +2,9 @@ import React from 'react'
 import { Box, Flex, useColorMode, Image, HStack } from '@chakra-ui/react'
 import { Link, useRouteMatch } from 'react-router-dom'
 import { DarkModeToggle } from '../DarkMode'
-import { NavItem } from './components/navItem'
 import { MatchParams } from '../../types'
 import logo from '../../images/logo.png'
 import logoDark from '../../images/logoDark.png'
-import { Searchbar } from '../../home/components/searchbar'
 import { isAuth } from '../../auth'
 import { UserInfo } from './components/userInfo'
 
@@ -36,19 +34,12 @@ export const Header = () => {
             <Link to='/courses'>
               <Image alt='logo' src={pageLogo} height='3.5rem' />
             </Link>
-            {isAuth() && (
-              <HStack>
-                <NavItem to='/courses'>Home</NavItem>
-                <NavItem to='/courses'>Courses</NavItem>
-              </HStack>
-            )}
           </HStack>
 
           <HStack spacing={4}>
             {isAuth() && (
               <HStack spacing={10}>
                 <UserInfo />
-                <Searchbar />
               </HStack>
             )}
 

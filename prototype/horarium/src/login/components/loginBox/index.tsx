@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom'
 import store from 'store'
 import { User } from '../../../types'
 import { Session } from '../../../schema'
+import { isAuth } from '../../../auth'
 
 export const LoginBox = () => {
   const history = useHistory()
@@ -40,9 +41,10 @@ export const LoginBox = () => {
       })
     }
   }
+  if (isAuth()) history.push('/courses')
 
   return (
-    <Flex width='full' align='center' justifyContent='center'>
+    <Flex width='full' align='center' justifyContent='center' direction='column'>
       <Box margin={10} p={8} maxWidth='500px' borderWidth={1} borderRadius={8} boxShadow='lg'>
         <Box textAlign='center'>
           <Heading>Login</Heading>
