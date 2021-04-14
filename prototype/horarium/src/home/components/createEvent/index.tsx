@@ -21,6 +21,7 @@ import {
 import { CalendarEvent, CalendarEventType, Course, Role } from '../../../types'
 import store from 'store'
 import { isPermited, AuthCourse } from '../../../auth'
+import dayjs from 'dayjs'
 
 
 type Props = {
@@ -113,6 +114,33 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
       </option>
     ),
   )
+
+  const sameCourseCollision = () => {
+    const courses: Course[] = store.get('courses')
+    const currentStartTime = dayjs(formData.startTime.value).unix()
+    const currentEndTime = dayjs(formData.endTime.value).unix()
+    let itCollides = false
+
+    courses[currentCourse].events.forEach((event) => {
+      const startTime = dayjs(event.start_time).unix()
+      const endTime = dayjs(event.end_time).unix()
+      if (currentStartTime >= startTime && currentStartTime <= endTime) {
+        itCollides = true
+      } else if (currentEndTime >= startTime && currentEndTime <= endTime) {
+        itCollides = true
+      }
+    })
+
+    if (itCollides) {
+      toast({
+        title: `Collision detected`,
+        status: 'error',
+        isClosable: true,
+      })
+    }
+    return itCollides
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -195,23 +223,22 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
         </ModalBody>
 
         <ModalFooter>
-          {permitedToEdit && (
-            <Flex justify='space-between' width='100%'>
-              <Box>
-                {isEdit && (
-                  <Button
-                    colorScheme='red'
-                    onClick={() => {
-                      delete_event(0, eventIndex)
-                      onClose()
-                    }}
-                  >
-                    Delete
-                  </Button>
-                )}
-              </Box>
-           
-             <HStack>
+          <Flex justify='space-between' width='100%'>
+            <Box>
+              {isEdit && (
+                <Button
+                  colorScheme='red'
+                  onClick={() => {
+                    delete_event(0, eventIndex)
+                    onClose()
+                  }}
+                >
+                  Delete
+                </Button>
+              )}
+            </Box>
+
+            <HStack>
               <Button
                 colorScheme='blue'
                 onClick={() => {
@@ -219,7 +246,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                     const eventType = current_course.eventTypes.find(
                       (type) => type.name === formData.type.value,
                     )
-                    if (eventType !== undefined) {
+                    if (eventType !== undefined && !sameCourseCollision()) {
                       save_event(currentCourse, {
                         title: formData.title.value,
                         description: formData.description.value,

@@ -136,10 +136,12 @@ export const AddCourse = () => {
                   { name: 'ASDF', consultants: [] },
                   { name: 'HJKL', consultants: [] },
                 ],
-                schedulers: [], // TODO: Add support for different schedulers
+                schedulers: [
+                  store.get('session').user
+                ],
                 events: [],
                 eventTypes: [
-                  // TODO: Different types of events in the form
+                  //Default Event Types
                   { name: 'Lecture', color: 'tomato' },
                   { name: 'Lab', color: 'orange' },
                   { name: 'Exam', color: 'purple' },

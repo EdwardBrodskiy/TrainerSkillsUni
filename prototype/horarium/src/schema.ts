@@ -1,4 +1,4 @@
-import { Admin, Consultant, Course, Scheduler, Trainer, User } from './types'
+import { Admin, Consultant, Course, Role, Scheduler, Trainer, User } from './types'
 import store from 'store'
 
 export type Session = {
@@ -26,7 +26,9 @@ export const setup_local_storage = () => {
           { name: 'EECS', consultants: [] },
           { name: 'ASDF', consultants: [] },
         ],
-        schedulers: [],
+        schedulers: [
+          {permission: 1, working_courses:[], email: 'scheduler2@outlook.com', academy_location: 'London', name: 'scheduler2', flag: false },
+        ],
         events: [],
         eventTypes: [
           { name: 'Lecture', color: 'tomato' },
@@ -43,7 +45,9 @@ export const setup_local_storage = () => {
           { name: 'EECS', consultants: [] },
           { name: 'HJKL', consultants: [] },
         ],
-        schedulers: [],
+        schedulers: [ 
+          {permission: 1, working_courses:[], email: 'scheduler2@outlook.com', academy_location: 'London', name: 'scheduler2', flag: false },
+        ],
         events: [],
         eventTypes: [
           { name: 'Lecture', color: 'red' },

@@ -8,6 +8,7 @@ import { CourseItem } from './components/courseItem'
 import { Link as ReactLink } from 'react-router-dom'
 import { isPermited } from '../../../../../auth'
 import store from 'store'
+import { Events } from './components/events'
 
 type Props = {
   course: Course
@@ -79,8 +80,7 @@ export const EditCourse = ({ course }: Props) => {
         </CourseItem>
 
         <CourseItem title='Course Events'>
-          TODO: add event but remember the events have colors in the eventType don't be silly this
-          time
+          <Events events={course.events} />
         </CourseItem>
 
         <CourseItem title='Course Length'>
