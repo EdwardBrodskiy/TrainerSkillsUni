@@ -24,6 +24,7 @@ import store from 'store'
 import { isPermited, AuthCourse } from '../../../auth'
 
 import { SearchSelect } from '../../../components/searchSelect'
+import dayjs from 'dayjs'
 
 type Props = {
   isOpen: boolean
@@ -121,6 +122,34 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
     ),
   )
   const users: User[] = store.get('users')
+  const timeCourseCollision = () => {
+    const courses: Course[] = store.get('courses')
+    const currentStartTime = dayjs(formData.startTime.value).unix()
+    const currentEndTime = dayjs(formData.endTime.value).unix()
+    let itCollides = false
+
+    courses.forEach((course) => {
+      courses[Number(course.courseId)].events.forEach((event) => {
+        const startTime = dayjs(event.start_time).unix()
+        const endTime = dayjs(event.end_time).unix()
+        if (currentStartTime >= startTime && currentStartTime <= endTime) {
+          itCollides = true
+        } else if (currentEndTime >= startTime && currentEndTime <= endTime) {
+          itCollides = true
+        }
+      })
+    })
+
+    if (itCollides) {
+      toast({
+        title: `Collision detected. Please change the time`,
+        status: 'error',
+        isClosable: true,
+      })
+    }
+    console.log(itCollides)
+    return itCollides
+  }
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -229,7 +258,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                       )
 
                       if (trainer !== undefined && eventType !== undefined) {
-                        save_event(0, {
+                        save_event(currentCourse, {
                           title: formData.title.value,
                           description: formData.description.value,
                           type: eventType,
@@ -239,7 +268,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                           trainer,
                         })
                         if (isEdit) {
-                          delete_event(0, eventIndex)
+                          delete_event(currentCourse, eventIndex)
                         }
                       }
                       onClose()
@@ -268,7 +297,11 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                     const trainer = users.find(
                       (user: User): user is Trainer => user.name === formData.trainer.value,
                     )
-                    if (trainer !== undefined && eventType !== undefined) {
+                    if (
+                      trainer !== undefined &&
+                      eventType !== undefined &&
+                      !timeCourseCollision()
+                    ) {
                       save_event(currentCourse, {
                         title: formData.title.value,
                         description: formData.description.value,
