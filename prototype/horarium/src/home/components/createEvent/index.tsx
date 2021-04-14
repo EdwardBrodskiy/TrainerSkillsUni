@@ -19,13 +19,11 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { CalendarEvent, CalendarEventType, Course, Role, Trainer, User } from '../../../types'
-import store from 'store'
-
 import { isPermited, AuthCourse } from '../../../auth'
-import dayjs from 'dayjs'
-
 import { SearchSelect } from '../../../components/searchSelect'
 import dayjs from 'dayjs'
+import store from 'store'
+
 
 type Props = {
   isOpen: boolean
