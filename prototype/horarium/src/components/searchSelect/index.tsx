@@ -56,7 +56,9 @@ export const SearchSelect = ({ name, value, onChange, errorBorderColor, isReadOn
       trainer={trainer}
     />
   ))
+  //Collision working
   const trainer = all_trainers.find((user: User): user is Trainer => user.name === value)
+  //Another Filter for time
   return (
     <Box>
       <Button variant='outline' onClick={onOpen} isFullWidth textAlign='left' px={0}>
