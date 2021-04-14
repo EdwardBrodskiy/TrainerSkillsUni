@@ -12,7 +12,7 @@ export const EventCard = ({ event, scale, ...rest }: Props & BoxProps) => {
   const end_time = new Date(event.end_time)
   const minute_shift = Math.round((start_time.getMinutes() / 60) * scale)
   const duration = (end_time.getTime() - start_time.getTime()) / (1000 * 3600)
-  const gap_jumps = Math.floor(duration - 4 / scale)
+  const gap_jumps = Math.floor(duration)
   return (
     <Box
       {...rest}
@@ -22,10 +22,12 @@ export const EventCard = ({ event, scale, ...rest }: Props & BoxProps) => {
       bg={event.type.color}
       rounded={6}
       fontSize={18}
+      color='white'
       marginX={1}
       position='relative'
       borderLeft='4px'
       borderColor='rgba(0,0,0,0.4)'
+      overflow='hidden'
     >
       <Text fontSize='md' textAlign='right'>
         {`${dayjs(start_time).format('HH:mm')} - ${dayjs(end_time).format('HH:mm')}`}

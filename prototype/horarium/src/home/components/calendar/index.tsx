@@ -24,6 +24,7 @@ import advancedFormat from 'dayjs/plugin/advancedFormat'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import { ArrowBackIcon, InfoIcon } from '@chakra-ui/icons'
 import { AuthCourse } from '../../../auth'
+import { useHistory } from 'react-router'
 
 dayjs.extend(advancedFormat)
 dayjs.extend(weekOfYear)
@@ -38,6 +39,8 @@ export const Calendar = ({ createEvent }: Props) => {
   const { colorMode } = useColorMode()
   const altBgColor = { light: 'gray.300', dark: 'gray.600' }
   const scale = 64
+
+  const history = useHistory()
 
   const current_course: Course = store.get('courses')[AuthCourse()]
 
@@ -105,6 +108,7 @@ export const Calendar = ({ createEvent }: Props) => {
             size='lg'
             bg={altBgColor[colorMode]}
             leftIcon={<ArrowBackIcon />}
+            onClick={() => history.push('/courses')}
           >
             Back to Course
           </Button>

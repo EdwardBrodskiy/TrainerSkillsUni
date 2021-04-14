@@ -23,6 +23,7 @@ export const EventCard = ({ event, createEvent, isRemovable, removeEventType }: 
       rounded={6}
       height={20}
       fontSize={18}
+      color='white'
       onClick={hasSchedulerPermissions ? () => createEvent({ type: event }) : undefined}
       justify='space-between'
     >
