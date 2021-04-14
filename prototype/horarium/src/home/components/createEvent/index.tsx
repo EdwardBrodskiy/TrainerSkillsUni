@@ -18,9 +18,10 @@ import {
   Textarea,
   useToast,
 } from '@chakra-ui/react'
-import { CalendarEvent, CalendarEventType, Course } from '../../../types'
+import { CalendarEvent, CalendarEventType, Course, Role } from '../../../types'
 import store from 'store'
-import { AuthCourse } from '../../../auth'
+import { isPermited, AuthCourse } from '../../../auth'
+
 
 type Props = {
   isOpen: boolean
@@ -50,6 +51,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
   const toast = useToast()
   const currentCourse = AuthCourse()
   const isEdit: boolean = eventIndex !== -1
+  const permitedToEdit = isPermited(Role.Scheduler)
   const initialState: FormData = {
     title: { value: prefilledData.title || '', error: false, touched: isEdit },
     description: { value: prefilledData.description || '', error: false, touched: true },
@@ -73,6 +75,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
   const [formData, setFormData] = useState<FormData>(initialState)
 
   const updateElementState: React.ChangeEventHandler<InputElements> = (event) => {
+    if (!permitedToEdit) return
     const { name, value } = event.target
     const error = is_element_invalid(name, value, true, formData)
     setFormData((prevState) => ({ ...prevState, [name]: { touched: true, value, error } }))
@@ -95,6 +98,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
     onChange: updateElementState,
     onBlur: updateElementState,
     errorBorderColor: 'crimson',
+    isReadOnly: !permitedToEdit,
   }
   const location_options = store.get('locations').map((item: string, index: number) => (
     <option key={index} value={item}>
@@ -110,10 +114,12 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
     ),
   )
   return (
-    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Create Event</ModalHeader>
+        <ModalHeader>
+          {isEdit ? (permitedToEdit ? 'View/Edit Event' : 'View Event') : 'Create Event'}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <FormControl>
@@ -189,22 +195,23 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
         </ModalBody>
 
         <ModalFooter>
-          <Flex justify='space-between' width='100%'>
-            <Box>
-              {isEdit && (
-                <Button
-                  colorScheme='red'
-                  onClick={() => {
-                    delete_event(0, eventIndex)
-                    onClose()
-                  }}
-                >
-                  Delete
-                </Button>
-              )}
-            </Box>
-
-            <HStack>
+          {permitedToEdit && (
+            <Flex justify='space-between' width='100%'>
+              <Box>
+                {isEdit && (
+                  <Button
+                    colorScheme='red'
+                    onClick={() => {
+                      delete_event(0, eventIndex)
+                      onClose()
+                    }}
+                  >
+                    Delete
+                  </Button>
+                )}
+              </Box>
+           
+             <HStack>
               <Button
                 colorScheme='blue'
                 onClick={() => {

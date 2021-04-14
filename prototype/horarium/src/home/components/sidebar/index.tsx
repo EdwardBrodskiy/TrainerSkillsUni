@@ -2,10 +2,11 @@ import React, { PropsWithChildren, useState } from 'react'
 import { ViewGrid, ViewSide } from '../layout'
 import { Box, Stack } from '@chakra-ui/react'
 import { EventCard, CreateEventCaller } from '../eventCard'
-import { CalendarEvent, CalendarEventType, Course } from '../../../types'
+import { CalendarEvent, CalendarEventType, Course, Role } from '../../../types'
 import { CreateEventType } from '../createEventType'
 import store from 'store'
-import { AuthCourse } from '../../../auth'
+import { isPermited, AuthCourse } from '../../../auth'
+
 
 type Props = {
   createEvent: CreateEventCaller
@@ -60,7 +61,7 @@ export const Sidebar = ({ createEvent }: Props) => {
   return (
     <Stack spacing={2} padding={2}>
       {eventCards}
-      <CreateEventType createEventType={createEventType} />
+      {isPermited(Role.Scheduler) && <CreateEventType createEventType={createEventType} />}
     </Stack>
   )
 }
