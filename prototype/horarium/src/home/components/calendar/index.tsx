@@ -96,7 +96,7 @@ export const Calendar = ({ createEvent }: Props) => {
   return (
     <Box>
       <Flex mb={4} align='center' justify='space-between'>
-        <HStack spacing={10} isTruncated>
+        <HStack spacing={10}>
           <Button
             aria-label='back to course'
             size='lg'
@@ -106,9 +106,9 @@ export const Calendar = ({ createEvent }: Props) => {
             Back to Course
           </Button>
           <Heading size='2xl'>{current_course.name}</Heading>
-          <Text isTruncated fontSize='lg'>
+          {/* <Text isTruncated fontSize='lg'>
             {current_course.description}
-          </Text>
+          </Text> */}
         </HStack>
         <HStack>
           <Heading size='sm'>Select week:</Heading>
@@ -131,8 +131,10 @@ export const Calendar = ({ createEvent }: Props) => {
         </HStack>
       </Flex>
       <Grid key='labels' templateColumns='7% repeat(7, 13%)' gap={1} mb={1}>
-        <Center textAlign='center' bg={colorMode === 'light' ? 'gray.400' : 'gray.500'} as='i'>
-          Scroll to see other times
+        <Center textAlign='center' bg={colorMode === 'light' ? 'gray.400' : 'gray.500'}>
+          <Text as='i' noOfLines={2}>
+            Scroll to see other times
+          </Text>
         </Center>
         {days}
       </Grid>
