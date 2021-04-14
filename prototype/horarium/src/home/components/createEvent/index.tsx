@@ -271,7 +271,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                       const trainer = users.find(
                         (user: User): user is Trainer => user.name === formData.trainer.value,
                       )
-                      if (trainer !== undefined && eventType !== undefined) {
+                      if (trainer !== undefined && eventType !== undefined && timeCourseCollision()) {
                         save_event(currentCourse, {
                           title: formData.title.value,
                           description: formData.description.value,
