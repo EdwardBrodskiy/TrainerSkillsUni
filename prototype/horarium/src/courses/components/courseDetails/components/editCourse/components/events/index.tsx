@@ -13,7 +13,7 @@ export const Events = ({ events }: Props) => {
     <Wrap
       direction='row'
       spacing={4}
-      height='10em'
+      maxHeight='10em'
       overflowY='scroll'
       sx={{
         '::-webkit-scrollbar': { display: 'none' },
