@@ -7,7 +7,6 @@ import { CreateEventType } from '../createEventType'
 import store from 'store'
 import { isPermited, AuthCourse } from '../../../auth'
 
-
 type Props = {
   createEvent: CreateEventCaller
 }
@@ -15,10 +14,15 @@ type Props = {
 export const Sidebar = ({ createEvent }: Props) => {
   const [courses, setCourses] = useState<Course[]>(store.get('courses'))
   const selectedCourse = AuthCourse()
-  
+
   const removeEventType = (index: number) => {
     const currentCourses: Course[] = store.get('courses')
-    if (hasEvents(currentCourses[selectedCourse].eventTypes[index], currentCourses[selectedCourse].events)) {
+    if (
+      hasEvents(
+        currentCourses[selectedCourse].eventTypes[index],
+        currentCourses[selectedCourse].events,
+      )
+    ) {
       setCourses(currentCourses)
       throw Error(`Events exist of type ${currentCourses[selectedCourse].eventTypes[index].name}`)
     }
@@ -70,7 +74,7 @@ export const SidebarWrapper = ({ children, createEvent }: Props & PropsWithChild
   return (
     <ViewGrid>
       <ViewSide
-        height='57em'
+        maxHeight='57em'
         overflowY='scroll'
         sx={{
           '::-webkit-scrollbar': { display: 'none' },

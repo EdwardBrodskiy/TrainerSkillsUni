@@ -41,9 +41,12 @@ export const Calendar = ({ createEvent }: Props) => {
 
   const current_course: Course = store.get('courses')[AuthCourse()]
 
-  const earliest_event_time = Math.min(
+  let earliest_event_time = Math.min(
     ...current_course.events.map((event) => new Date(event.start_time).getTime()),
   )
+  if (earliest_event_time === Infinity) {
+    earliest_event_time = new Date().getTime()
+  }
   const [selectedWeek, setSelectedWeek] = useState<string>(
     dayjs(earliest_event_time).format('YYYY-[W]w'),
   )
@@ -106,9 +109,6 @@ export const Calendar = ({ createEvent }: Props) => {
             Back to Course
           </Button>
           <Heading size='2xl'>{current_course.name}</Heading>
-          {/* <Text isTruncated fontSize='lg'>
-            {current_course.description}
-          </Text> */}
         </HStack>
         <HStack>
           <Heading size='sm'>Select week:</Heading>
