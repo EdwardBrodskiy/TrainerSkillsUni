@@ -18,10 +18,10 @@ import {
   Textarea,
   useToast,
 } from '@chakra-ui/react'
-import { CalendarEvent, CalendarEventType, Course, Role } from '../../../types'
+import { CalendarEvent, CalendarEventType, Course, Role, Trainer, User } from '../../../types'
 import store from 'store'
 import { isPermited } from '../../../auth'
-import { SearchSelect } from '../../../components/searchSelect/inces'
+import { SearchSelect } from '../../../components/searchSelect'
 
 type Props = {
   isOpen: boolean
@@ -30,14 +30,13 @@ type Props = {
   eventIndex: number
 }
 
-type InputElements = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-
 type FormData = {
   title: FormElement
   description: FormElement
   location: FormElement
   startTime: FormElement
   endTime: FormElement
+  trainer: FormElement
   type: FormElement
 }
 
@@ -65,6 +64,11 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
       error: false,
       touched: prefilledData.end_time !== undefined,
     },
+    trainer: {
+      value: prefilledData.trainer?.name || '',
+      error: false,
+      touched: prefilledData.end_time !== undefined,
+    },
     type: {
       value: prefilledData.type?.name || '',
       error: false,
@@ -73,9 +77,8 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
   }
   const [formData, setFormData] = useState<FormData>(initialState)
 
-  const updateElementState: React.ChangeEventHandler<InputElements> = (event) => {
+  const updateElementState = (name: string, value: string) => {
     if (!permitedToEdit) return
-    const { name, value } = event.target
     const error = is_element_invalid(name, value, true, formData)
     setFormData((prevState) => ({ ...prevState, [name]: { touched: true, value, error } }))
     let element: keyof FormData
@@ -94,8 +97,10 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
     setFormData((prevState) => ({ ...prevState, ...to_update }))
   }
   const commonFormElementProps = {
-    onChange: updateElementState,
-    onBlur: updateElementState,
+    onChange: (e: { target: { name: string; value: string } }) =>
+      updateElementState(e.target.name, e.target.value),
+    onBlur: (e: { target: { name: string; value: string } }) =>
+      updateElementState(e.target.name, e.target.value),
     errorBorderColor: 'crimson',
     isReadOnly: !permitedToEdit,
   }
@@ -112,6 +117,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
       </option>
     ),
   )
+  const users: User[] = store.get('users')
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -182,7 +188,13 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
 
           <FormControl>
             <FormLabel>Trainer</FormLabel>
-            <SearchSelect />
+            <SearchSelect
+              name='trainer'
+              value={formData.trainer.value}
+              onChange={updateElementState}
+              errorBorderColor='crimson'
+              isReadOnly={!permitedToEdit}
+            />
           </FormControl>
 
           <FormControl>
@@ -223,7 +235,11 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                       const eventType = current_course.eventTypes.find(
                         (type) => type.name === formData.type.value,
                       )
-                      if (eventType !== undefined) {
+                      const trainer: Trainer | undefined = users.find(
+                        (user: User): user is Trainer => user.name === formData.trainer.value,
+                      )
+
+                      if (trainer !== undefined && eventType !== undefined) {
                         save_event(0, {
                           title: formData.title.value,
                           description: formData.description.value,
@@ -231,6 +247,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                           location: formData.location.value,
                           start_time: formData.startTime.value,
                           end_time: formData.endTime.value,
+                          trainer,
                         })
                         if (isEdit) {
                           delete_event(0, eventIndex)

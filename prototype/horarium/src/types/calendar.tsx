@@ -1,4 +1,4 @@
-import { Group, Scheduler } from './users'
+import { Group, Scheduler, Trainer } from './users'
 
 export type Calendar = {
   courses: Course[]
@@ -6,7 +6,7 @@ export type Calendar = {
 
 export type Course = {
   name: string
-  module: Modules
+  module: string
   description?: string
   courseId: string
   enroled_groups: Group[]
@@ -27,17 +27,10 @@ export type CalendarEvent = {
   location: string
   start_time: string
   end_time: string
+  trainer: Trainer
 }
 
 export type AvaliabilityTable = {
   fixed: string[]
   variable: string[]
-}
-
-export enum Modules {
-  Databases,
-  Accounting,
-  WebDev,
-  Business,
-  // TODO: add more or make editiable
 }

@@ -116,7 +116,6 @@ export const Calendar = ({ createEvent }: Props) => {
             bg={altBgColor[colorMode]}
             value={selectedWeek}
             onChange={(event) => {
-              console.log(event.target.value)
               setSelectedWeek(event.target.value)
             }}
           />
