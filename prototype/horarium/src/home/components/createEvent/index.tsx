@@ -25,6 +25,7 @@ import { isPermited, AuthCourse } from '../../../auth'
 import dayjs from 'dayjs'
 
 import { SearchSelect } from '../../../components/searchSelect'
+import dayjs from 'dayjs'
 
 type Props = {
   isOpen: boolean
@@ -113,7 +114,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
       {item}
     </option>
   ))
-  const current_course: Course = store.get('courses')[currentCourse] //Temp, no authentication of selected course
+  const current_course: Course = store.get('courses')[currentCourse]
   const eventType_options = current_course.eventTypes.map(
     (type: CalendarEventType, index: number) => (
       <option key={index} value={type.name}>
@@ -122,6 +123,34 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
     ),
   )
   const users: User[] = store.get('users')
+  const timeCourseCollision = () => {
+    const courses: Course[] = store.get('courses')
+    const currentStartTime = dayjs(formData.startTime.value).unix()
+    const currentEndTime = dayjs(formData.endTime.value).unix()
+    let itCollides = false
+
+    courses.forEach((course) => {
+      courses[Number(course.courseId)].events.forEach((event) => {
+        const startTime = dayjs(event.start_time).unix()
+        const endTime = dayjs(event.end_time).unix()
+        if (currentStartTime >= startTime && currentStartTime <= endTime) {
+          itCollides = true
+        } else if (currentEndTime >= startTime && currentEndTime <= endTime) {
+          itCollides = true
+        }
+      })
+    })
+
+    if (itCollides) {
+      toast({
+        title: `Collision detected. Please change the time`,
+        status: 'error',
+        isClosable: true,
+      })
+    }
+    console.log(itCollides)
+    return itCollides
+  }
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={isEdit}>
       <ModalOverlay />
@@ -270,7 +299,6 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                 >
                   {isEdit ? 'Update' : 'Create'}
                 </Button>
-
                 <Button variant='ghost' onClick={onClose}>
                   Cancel
                 </Button>
