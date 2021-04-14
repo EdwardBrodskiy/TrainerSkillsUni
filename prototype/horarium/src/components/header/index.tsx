@@ -6,7 +6,6 @@ import { NavItem } from './components/navItem'
 import { MatchParams } from '../../types'
 import logo from '../../images/logo.png'
 import logoDark from '../../images/logoDark.png'
-import { Searchbar } from '../../home/components/searchbar'
 import { isAuth } from '../../auth'
 import { UserInfo } from './components/userInfo'
 
@@ -48,7 +47,6 @@ export const Header = () => {
             {isAuth() && (
               <HStack spacing={10}>
                 <UserInfo />
-                <Searchbar />
               </HStack>
             )}
 
