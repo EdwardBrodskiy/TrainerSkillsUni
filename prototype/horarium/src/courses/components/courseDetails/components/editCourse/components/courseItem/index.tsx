@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react'
-import { Text, Flex, Heading, Box } from '@chakra-ui/react'
+import { Flex, Heading, Box } from '@chakra-ui/react'
 
 type Props = {
   title: string

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tag, HStack } from '@chakra-ui/react'
-import { Group } from '../../../../../types'
+import { Group } from '../../../../../../../types'
 
 type Props = {
   groups: Group[]

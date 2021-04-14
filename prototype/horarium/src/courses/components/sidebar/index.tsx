@@ -3,7 +3,9 @@ import { ViewGrid, ViewSide } from '../layout'
 import { Box, Stack } from '@chakra-ui/react'
 import { CourseCard } from '../courseCard'
 import { AddCard } from '../addCard'
-import { Course } from '../../../types'
+import { Course, Role } from '../../../types'
+import store from 'store'
+import { isPermited } from '../../../auth'
 
 type Props = {
   courses: Course[]
@@ -11,13 +13,33 @@ type Props = {
 }
 
 export const Sidebar = ({ courses, setCurrentCourse }: Props) => {
+  
+  const removeCourse = () => {
+    const courses: Course[] = store.get('courses')
+    courses.splice(store.get('session').selectedCourse, 1)
+    store.set('courses', courses)
+  }
+
+  const addCard = () => {
+    if(isPermited(Role.Scheduler)) {
+      return (
+        <AddCard setCurrentCourse={setCurrentCourse} />
+      )
+    } 
+  }
+
   const courseCards = courses.map((course, index) => (
-    <CourseCard key={index} course={course} setCurrentCourse={setCurrentCourse} />
+    <CourseCard 
+      key={index}
+      course={course} 
+      setCurrentCourse={setCurrentCourse}
+      removeCourse={removeCourse}
+    />
   ))
   return (
     <Stack spacing={2} padding={2}>
       {courseCards}
-      <AddCard setCurrentCourse={setCurrentCourse} />
+      {addCard()}
     </Stack>
   )
 }

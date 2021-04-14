@@ -23,6 +23,7 @@ import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 import { ArrowBackIcon, InfoIcon } from '@chakra-ui/icons'
+import { AuthCourse } from '../../../auth'
 
 dayjs.extend(advancedFormat)
 dayjs.extend(weekOfYear)
@@ -38,7 +39,7 @@ export const Calendar = ({ createEvent }: Props) => {
   const altBgColor = { light: 'gray.300', dark: 'gray.600' }
   const scale = 64
 
-  const current_course: Course = store.get('courses')[0]
+  const current_course: Course = store.get('courses')[AuthCourse()]
 
   const earliest_event_time = Math.min(
     ...current_course.events.map((event) => new Date(event.start_time).getTime()),

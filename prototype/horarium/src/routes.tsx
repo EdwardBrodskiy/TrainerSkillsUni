@@ -5,7 +5,7 @@ import { isAuth } from './auth'
 import { Header } from './components/header'
 import { Home } from './home'
 import { Login } from './login'
-import { CreateCourse } from './createCourse'
+import { Courses } from './courses'
 
 export type MatchParams = {
   isExact: string
@@ -23,7 +23,7 @@ const Routes = () => {
           <Route exact key='route-login' path='/' component={Login} />
           {!isAuth() && <Redirect to='/' />}
           <Route key='route-home' path='/home' component={Home} />
-          <Route exact key='route-createCourse' path='/create-course' component={CreateCourse} />
+          <Route exact key='route-courses' path='/courses' component={Courses} />
           <Redirect from='*' to='/' /> {/* TODO: add 404 page instead */}
         </Switch>
       </Box>

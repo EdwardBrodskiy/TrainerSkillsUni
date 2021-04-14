@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Text,
-  Flex,
   ButtonGroup,
   Editable,
   EditableInput,
@@ -14,9 +13,12 @@ import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons'
 type Props = {
   description: string | undefined
   isEditing: boolean
+  setNewDescription: any
 }
 
-export const Description = ({ description, isEditing }: Props) => {
+export const Description = ({ description, isEditing, setNewDescription }: Props) => {
+  const [tempDescription, setTempDescription] = useState(description)
+
   const EditableControls = () => {
     const {
       isEditing,
@@ -43,7 +45,13 @@ export const Description = ({ description, isEditing }: Props) => {
 
   if (isEditing) {
     return (
-      <Editable defaultValue={description} isPreviewFocusable={false}>
+      <Editable
+        onSubmit={() => setNewDescription(tempDescription)}
+        onChange={(value) => setTempDescription(value)}
+        defaultValue={description}
+        isPreviewFocusable={false}
+      >
+        {/* Find a way to resize Editable Input */}
         <EditablePreview />
         <EditableInput />
         <EditableControls />

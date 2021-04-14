@@ -20,6 +20,7 @@ import {
 } from '@chakra-ui/react'
 import { CalendarEvent, CalendarEventType, Course } from '../../../types'
 import store from 'store'
+import { AuthCourse } from '../../../auth'
 
 type Props = {
   isOpen: boolean
@@ -47,6 +48,7 @@ type FormElement = {
 
 export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }: Props) => {
   const toast = useToast()
+  const currentCourse = AuthCourse()
   const isEdit: boolean = eventIndex !== -1
   const initialState: FormData = {
     title: { value: prefilledData.title || '', error: false, touched: isEdit },
@@ -99,7 +101,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
       {item}
     </option>
   ))
-  const current_course: Course = store.get('courses')[0] //TODO: add course selection and creation
+  const current_course: Course = store.get('courses')[currentCourse] //Temp, no authentication of selected course
   const eventType_options = current_course.eventTypes.map(
     (type: CalendarEventType, index: number) => (
       <option key={index} value={type.name}>
@@ -211,7 +213,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                       (type) => type.name === formData.type.value,
                     )
                     if (eventType !== undefined) {
-                      save_event(0, {
+                      save_event(currentCourse, {
                         title: formData.title.value,
                         description: formData.description.value,
                         type: eventType,
@@ -220,7 +222,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                         end_time: formData.endTime.value,
                       })
                       if (isEdit) {
-                        delete_event(0, eventIndex)
+                        delete_event(currentCourse, eventIndex)
                       }
                     }
                     onClose()

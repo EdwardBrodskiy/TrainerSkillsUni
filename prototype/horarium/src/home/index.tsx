@@ -4,11 +4,8 @@ import { SidebarWrapper } from './components/sidebar'
 import { Calendar } from './components/calendar'
 import { CalendarEvent } from '../types'
 import { CreateEventModal } from './components/createEvent'
-import { useHistory } from 'react-router-dom'
-import store from 'store'
 
 export const Home = () => {
-  const history = useHistory()
   const [eventData, setEventData] = useState<Partial<CalendarEvent>>({})
   const [currentEventIndex, setCurrentEventIndex] = useState<number>(-1)
   const {
@@ -25,18 +22,6 @@ export const Home = () => {
     await setEventData(data)
     onCreateEventOpen()
   }
-  const selected_course = () => {
-    const course = store.get('session').selectedCourse
-    if (course !== undefined) {
-      return course
-    } else {
-      /*This works but it creates a wall of errors,
-      to get here clear selectedCourse from memory and enter /home in URL*/
-      history.push('/create-course')
-      window.location.reload()
-    }
-  }
-  const current_course: Course = store.get('courses')[selected_course()]
   return (
     <Box>
       <SidebarWrapper createEvent={createEvent}>

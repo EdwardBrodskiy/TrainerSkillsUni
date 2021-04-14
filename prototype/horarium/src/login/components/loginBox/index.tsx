@@ -29,8 +29,9 @@ export const LoginBox = () => {
     const userIndex = usersNames.indexOf(username)
     if (userIndex !== -1 && username === password) {
       const session: Session = { ...store.get('session'), userIndex, user: users[userIndex] }
+      session.selectedCourse = 0
       store.set('session', session)
-      history.push('/create-course')
+      history.push('/courses')
     } else {
       toast({
         title: 'Invalid Username/Password',
