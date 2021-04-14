@@ -50,6 +50,7 @@ export const SearchSelect = ({ name, value, onChange, errorBorderColor, isReadOn
       trainer={trainer}
     />
   ))
+  //Collision working
   const trainer = all_trainers.find((user: User): user is Trainer => user.name === value)
   return (
     <Box>
