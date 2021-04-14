@@ -195,23 +195,22 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
         </ModalBody>
 
         <ModalFooter>
-          {permitedToEdit && (
-            <Flex justify='space-between' width='100%'>
-              <Box>
-                {isEdit && (
-                  <Button
-                    colorScheme='red'
-                    onClick={() => {
-                      delete_event(0, eventIndex)
-                      onClose()
-                    }}
-                  >
-                    Delete
-                  </Button>
-                )}
-              </Box>
-           
-             <HStack>
+          <Flex justify='space-between' width='100%'>
+            <Box>
+              {isEdit && (
+                <Button
+                  colorScheme='red'
+                  onClick={() => {
+                    delete_event(0, eventIndex)
+                    onClose()
+                  }}
+                >
+                  Delete
+                </Button>
+              )}
+            </Box>
+
+            <HStack>
               <Button
                 colorScheme='blue'
                 onClick={() => {
