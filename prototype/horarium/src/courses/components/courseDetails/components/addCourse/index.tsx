@@ -11,7 +11,7 @@ import {
   Switch,
   Center,
 } from '@chakra-ui/react'
-import { Course } from '../../../../../types'
+import { Course, Group } from '../../../../../types'
 import store from 'store'
 
 type InputElements = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -30,6 +30,10 @@ type FormElement = {
 
 export const AddCourse = () => {
   const toast = useToast()
+  const [EECS, setEECS] = useState<Boolean>(false)
+  const [ASDF, setASDF] = useState<Boolean>(false)
+  const [HJKL, setHJKL] = useState<Boolean>(false)
+
 
   const initialState: FormData = {
     name: { value: '', error: false, touched: false },
@@ -64,6 +68,14 @@ export const AddCourse = () => {
     errorBorderColor: 'crimson',
   }
 
+  const handleGroups = () => {
+    const groups: Group[] = []
+    if (EECS) groups.push({ name: 'EECS', consultants: [] })
+    if (ASDF) groups.push({ name: 'ASDF', consultants: [] }) 
+    if (HJKL) groups.push({ name: 'HJKL', consultants: [] })
+    return groups
+  }
+  let hasGroup = EECS || ASDF || HJKL
   return (
     <Box>
       <Heading mb='5'>Create Course:</Heading>
@@ -103,20 +115,38 @@ export const AddCourse = () => {
         />
       </FormControl>
 
-      <FormLabel>Enrolled Groups:</FormLabel>{/* TODO: Make the switches changeable(not readOnly) and functional to the form*/}
+      <FormLabel>Enrolled Groups:</FormLabel>
       <FormControl display='flex' alignItems='center'>
         <FormLabel mb='5' mr='1'>
           EECS:
         </FormLabel>
-        <Switch name='EECS' defaultChecked={true} isReadOnly={true}  value={1} colorScheme='purple' mr='2' mb='4' />
+        <Switch
+          name='EECS'
+          onChange={() => setEECS((EECS) => !EECS)}
+          colorScheme='purple'
+          mr='2'
+          mb='4'
+        />
         <FormLabel mb='5' mr='1'>
           ASDF:
         </FormLabel>
-        <Switch name='ASDF' defaultChecked={true} isReadOnly={true} value={1} colorScheme='green' mr='2' mb='4' />
+        <Switch
+          name='ASDF'
+          onChange={() => setASDF((ASDF) => !ASDF)}
+          colorScheme='green'
+          mr='2'
+          mb='4'
+        />
         <FormLabel mb='5' mr='1'>
           HJKL:
         </FormLabel>
-        <Switch name='HJKL' defaultChecked={true} isReadOnly={true} value={1} colorScheme='blue' mr='2' mb='4' />
+        <Switch
+          name='HJKL'
+          onChange={() => setHJKL((HJKL) => !HJKL)}
+          colorScheme='blue'
+          mr='2'
+          mb='4'
+        />
       </FormControl>
 
       <Center>
@@ -124,30 +154,26 @@ export const AddCourse = () => {
           colorScheme='blue'
           mr={3}
           onClick={() => {
-            if (is_valid(formData)) {
-              save_course({
-                name: formData.name.value,
-                module: formData.module.value,
-                description: formData.description.value,
-                courseId: store.get('courses').length,
-                enrolled_groups: [
-                  //Temporary default groups
-                  { name: 'EECS', consultants: [] },
-                  { name: 'ASDF', consultants: [] },
-                  { name: 'HJKL', consultants: [] },
-                ],
-                schedulers: [], // TODO: Add support for different schedulers
-                events: [],
-                eventTypes: [
-                  // TODO: Different types of events in the form
-                  { name: 'Lecture', color: 'tomato' },
-                  { name: 'Lab', color: 'orange' },
-                  { name: 'Exam', color: 'purple' },
-                ],
-              })
+            if (is_valid(formData) && hasGroup) {
+              save_course(
+                {
+                  name: formData.name.value,
+                  module: formData.module.value,
+                  description: formData.description.value,
+                  courseId: store.get('courses').length,
+                  enrolled_groups: handleGroups(),
+                  schedulers: [],
+                  events: [],
+                  eventTypes: [
+                    { name: 'Lecture', color: 'tomato' },
+                    { name: 'Lab', color: 'orange' },
+                    { name: 'Exam', color: 'purple' },
+                  ],
+                }, toast,
+              )
             } else {
               toast({
-                title: `Make sure you filled in all the fields`,
+                title: `Make sure you filled in all the fields and selected at least one group.`,
                 status: 'error',
                 isClosable: true,
               })
@@ -179,7 +205,12 @@ const is_valid = (values: FormData) => {
   return true
 }
 
-const save_course = (course: Course) => {
+const save_course = (course: Course, toast: any) => {
+  toast({
+    title: 'Course Succesfully Created',
+    status: 'success',
+    position: 'bottom-left',
+  })
   const courses: Course[] = store.get('courses')
   courses.push(course)
   store.set('courses', courses)

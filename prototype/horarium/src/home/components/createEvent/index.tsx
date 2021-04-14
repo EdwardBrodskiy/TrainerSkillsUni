@@ -113,7 +113,7 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
       {item}
     </option>
   ))
-  const current_course: Course = store.get('courses')[currentCourse] //Temp, no authentication of selected course
+  const current_course: Course = store.get('courses')[currentCourse]
   const eventType_options = current_course.eventTypes.map(
     (type: CalendarEventType, index: number) => (
       <option key={index} value={type.name}>
