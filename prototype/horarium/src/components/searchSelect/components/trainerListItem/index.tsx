@@ -1,15 +1,20 @@
 import React from 'react'
 import { Badge, Box, BoxProps, Flex, Heading, Wrap, WrapItem } from '@chakra-ui/react'
-import { Trainer } from '../../../../types'
+import { Course, Trainer } from '../../../../types'
+import { AuthCourse } from '../../../../auth'
+import store from 'store'
 
 type Props = {
   trainer: Trainer
 }
 
 export const TrainerListItem = ({ trainer, ...rest }: Props & BoxProps) => {
+  const courses: Course[] = store.get('courses')
   const skills_tags = trainer.skills.map((skill, index) => (
     <WrapItem key={index}>
-      <Badge size='sm'>{skill}</Badge>
+      <Badge size='sm' colorScheme={courses[AuthCourse()].module === skill ? 'green' : 'yellow'}>
+        {skill}
+      </Badge>
     </WrapItem>
   ))
   return (

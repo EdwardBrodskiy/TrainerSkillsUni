@@ -71,7 +71,7 @@ export const SearchSelect = ({ name, value, onChange, errorBorderColor, isReadOn
             <DrawerBody>
               <InputGroup mb={10}>
                 <InputLeftElement pointerEvents='none' children={<SearchIcon color='gray.300' />} />
-                <Input placeholder='Trainer Name' onChange={onSearchChange} />
+                <Input placeholder='Enter Name/Skill' onChange={onSearchChange} />
               </InputGroup>
 
               {found_trainers.length > 0 ? (
