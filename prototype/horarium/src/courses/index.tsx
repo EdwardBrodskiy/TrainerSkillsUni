@@ -7,8 +7,11 @@ import store from 'store'
 
 export const Courses = () => {
   const courseList: Course[] = store.get('courses')
-  const defaultCourse = courseList[0]
-  const [currentCourse, setCurrentCourse] = useState(defaultCourse)
+  let selected_course = store.get('session').selectedCourse
+  if (selected_course === undefined) {
+    selected_course = 0
+  }
+  const [currentCourse, setCurrentCourse] = useState(courseList[selected_course])
 
   return (
     <Box height='100%'>
