@@ -24,7 +24,6 @@ import { SearchSelect } from '../../../components/searchSelect'
 import dayjs from 'dayjs'
 import store from 'store'
 
-
 type Props = {
   isOpen: boolean
   onClose: () => void
@@ -125,29 +124,27 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
     const courses: Course[] = store.get('courses')
     const currentStartTime = dayjs(formData.startTime.value).unix()
     const currentEndTime = dayjs(formData.endTime.value).unix()
-    let itCollides = false
+    let collidingEvents: CalendarEvent[] = []
 
     courses.forEach((course) => {
-      courses[Number(course.courseId)].events.forEach((event) => {
-        const startTime = dayjs(event.start_time).unix()
-        const endTime = dayjs(event.end_time).unix()
-        if (currentStartTime >= startTime && currentStartTime <= endTime) {
-          itCollides = true
-        } else if (currentEndTime >= startTime && currentEndTime <= endTime) {
-          itCollides = true
-        }
-      })
+      const common_groups = current_course.enrolled_groups.filter(
+        (current_course_group) =>
+          course.enrolled_groups.filter((group) => group.name === current_course_group.name)
+            .length > 0,
+      )
+      if (common_groups.length > 0)
+        course.events.forEach((event) => {
+          const startTime = dayjs(event.start_time).unix()
+          const endTime = dayjs(event.end_time).unix()
+          if (
+            (currentStartTime >= startTime && currentStartTime <= endTime) ||
+            (currentEndTime >= startTime && currentEndTime <= endTime)
+          ) {
+            collidingEvents.push(event)
+          }
+        })
     })
-
-    if (itCollides) {
-      toast({
-        title: `Collision detected. Please change the time`,
-        status: 'error',
-        isClosable: true,
-      })
-    }
-    console.log(itCollides)
-    return itCollides
+    return collidingEvents
   }
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={isEdit}>
@@ -264,35 +261,52 @@ export const CreateEventModal = ({ onClose, isOpen, prefilledData, eventIndex }:
                 <Button
                   colorScheme='blue'
                   onClick={() => {
-                    if (is_valid(formData)) {
-                      const eventType = current_course.eventTypes.find(
-                        (type) => type.name === formData.type.value,
-                      )
-                      const trainer = users.find(
-                        (user: User): user is Trainer => user.name === formData.trainer.value,
-                      )
-                      if (trainer !== undefined && eventType !== undefined && !timeCourseCollision()) {
-                        save_event(currentCourse, {
-                          title: formData.title.value,
-                          description: formData.description.value,
-                          type: eventType,
-                          location: formData.location.value,
-                          start_time: formData.startTime.value,
-                          end_time: formData.endTime.value,
-                          trainer,
-                        })
-                        if (isEdit) {
-                          delete_event(currentCourse, eventIndex)
-                        }
-                      }
-                      onClose()
-                    } else {
+                    if (!is_valid(formData)) {
                       toast({
                         title: `Make sure you filled in all the fields`,
                         status: 'error',
                         isClosable: true,
                       })
+                      return
                     }
+                    let cached_event: CalendarEvent | undefined
+                    if (isEdit) {
+                      cached_event = delete_event(currentCourse, eventIndex)
+                    }
+                    const collidingEvents = timeCourseCollision()
+                    if (collidingEvents.length > 0) {
+                      const event_titles = collidingEvents.map((event) => event.title)
+                      toast({
+                        title: `Conflicts Detected`,
+                        description: `with events: ${event_titles.toString()}`,
+                        status: 'error',
+                        isClosable: true,
+                      })
+                      if (cached_event !== undefined) {
+                        save_event(currentCourse, cached_event)
+                      }
+
+                      return
+                    }
+
+                    const eventType = current_course.eventTypes.find(
+                      (type) => type.name === formData.type.value,
+                    )
+                    const trainer = users.find(
+                      (user: User): user is Trainer => user.name === formData.trainer.value,
+                    )
+                    if (trainer !== undefined && eventType !== undefined) {
+                      save_event(currentCourse, {
+                        title: formData.title.value,
+                        description: formData.description.value,
+                        type: eventType,
+                        location: formData.location.value,
+                        start_time: formData.startTime.value,
+                        end_time: formData.endTime.value,
+                        trainer,
+                      })
+                    }
+                    onClose()
                   }}
                 >
                   {isEdit ? 'Update' : 'Create'}
@@ -350,6 +364,8 @@ const save_event = (course_index: number, event: CalendarEvent) => {
 
 const delete_event = (course_index: number, event_index: number) => {
   const courses: Course[] = store.get('courses')
+  const event = courses[course_index].events[event_index]
   courses[course_index].events.splice(event_index, 1)
   store.set('courses', courses)
+  return event
 }

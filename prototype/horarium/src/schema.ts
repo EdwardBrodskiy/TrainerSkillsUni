@@ -88,7 +88,7 @@ export const setup_local_storage = () => {
         ],
       },
     ],
-    locations: ['London', 'HongKong', 'Paris'],
+    locations: locations,
     users: [
       new Admin({ email: 'admin@outlook.com', academy_location: 'London', name: 'admin' }),
       new Scheduler({
