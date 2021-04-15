@@ -1,4 +1,4 @@
-import { Admin, Consultant, Course, Role, Scheduler, Trainer, User } from './types'
+import { Admin, Consultant, Course, Scheduler, Trainer, User } from './types'
 import store from 'store'
 
 export type Session = {

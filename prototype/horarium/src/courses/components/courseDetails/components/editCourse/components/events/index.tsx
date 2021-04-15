@@ -1,5 +1,5 @@
 import React from 'react'
-import { HStack, Wrap } from '@chakra-ui/react'
+import { Wrap } from '@chakra-ui/react'
 import { CalendarEvent } from '../../../../../../../types'
 import { EventCard } from './components/event'
 
