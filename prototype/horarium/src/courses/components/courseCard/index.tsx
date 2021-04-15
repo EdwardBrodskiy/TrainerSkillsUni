@@ -18,11 +18,16 @@ export const CourseCard = ({ course, setCurrentCourse, removeCourse }: Props) =>
   const thisCourse: Course = store.get('courses')[course.courseId]
   const toast = useToast()
 
-  const changeWorkingCourse = () => {
+  const changeWorkingCourse = (defultCourse?: number) => {
     const session: Session = store.get('session')
-    session.selectedCourse = Number(thisCourse.courseId)
+    if(defultCourse !== undefined) {
+      session.selectedCourse = Number(0)
+      setCurrentCourse(0)
+    } else {
+      session.selectedCourse = Number(thisCourse.courseId)
+      setCurrentCourse(thisCourse)
+    }
     store.set('session', session)
-    setCurrentCourse(thisCourse)
   }
 
   const deleteButton = () => {
@@ -34,7 +39,9 @@ export const CourseCard = ({ course, setCurrentCourse, removeCourse }: Props) =>
           size='sm'
           onClick={(e) => {
             try {
+              changeWorkingCourse()
               removeCourse()
+              changeWorkingCourse(0)
             } catch (e) {
               toast({
                 title: 'Invalid Input',
@@ -43,7 +50,6 @@ export const CourseCard = ({ course, setCurrentCourse, removeCourse }: Props) =>
                 position: 'bottom-left',
               })
             }
-
             e.stopPropagation()
           }}
           icon={<CloseIcon />}

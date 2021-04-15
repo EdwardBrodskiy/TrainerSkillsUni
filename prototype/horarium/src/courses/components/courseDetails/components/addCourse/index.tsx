@@ -162,14 +162,15 @@ export const AddCourse = () => {
                   description: formData.description.value,
                   courseId: store.get('courses').length,
                   enrolled_groups: handleGroups(),
-                  schedulers: [],
+                  schedulers: [store.get('session').user],
                   events: [],
                   eventTypes: [
                     { name: 'Lecture', color: 'tomato' },
                     { name: 'Lab', color: 'orange' },
                     { name: 'Exam', color: 'purple' },
                   ],
-                }, toast,
+                },
+                toast,
               )
             } else {
               toast({

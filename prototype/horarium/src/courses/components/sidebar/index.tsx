@@ -15,8 +15,13 @@ type Props = {
 export const Sidebar = ({ courses, setCurrentCourse }: Props) => {
   
   const removeCourse = () => {
+    let counter = 0
     const courses: Course[] = store.get('courses')
     courses.splice(store.get('session').selectedCourse, 1)
+    courses.forEach((course) => {
+      course.courseId = String(counter)
+      counter += 1
+    })
     store.set('courses', courses)
   }
 

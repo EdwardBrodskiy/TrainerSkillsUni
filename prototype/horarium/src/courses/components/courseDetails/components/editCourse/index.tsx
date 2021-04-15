@@ -18,8 +18,9 @@ import { Modules } from './components/modules'
 import { CourseItem } from './components/courseItem'
 import { Link as ReactLink } from 'react-router-dom'
 import { isPermited } from '../../../../../auth'
-import store from 'store'
 import { Events } from './components/events'
+import { Duration } from './components/duration'
+import store from 'store'
 
 type Props = {
   course: Course
@@ -61,6 +62,18 @@ export const EditCourse = ({ course }: Props) => {
     window.location.reload()
   }
 
+  const showCalendar = () => {
+    if(!isEditing){
+      return (
+        <Link as={ReactLink} to={'/home'}>
+          <Button colorScheme='green' variant='solid'>
+            To Calendar
+          </Button>
+        </Link>
+      )
+    }
+  }
+
   return (
     <Box>
       <HStack justify='space-between'>
@@ -68,11 +81,7 @@ export const EditCourse = ({ course }: Props) => {
           {course.name}
         </Heading>
         <Stack direction='row' justify='space-between' mx='10%' mt={4}>
-          <Link as={ReactLink} to={'/home'}>
-            <Button colorScheme='green' variant='solid'>
-              To Calendar
-            </Button>
-          </Link>
+          {showCalendar()}
           {editButton(setIsEditing)}
         </Stack>
       </HStack>
@@ -96,16 +105,16 @@ export const EditCourse = ({ course }: Props) => {
           <Groups groups={course.enrolled_groups} />
         </CourseItem>
 
-        {/* <CourseItem title='Involved Schedulers'>
+        <CourseItem title='Involved Schedulers'>
           <Text>{course.schedulers.map((scheduler) => scheduler.name)}</Text>
-        </CourseItem> */}
+        </CourseItem>
 
         <CourseItem title='Course Events'>
           <Events events={course.events} />
         </CourseItem>
 
         <CourseItem title='Course Length'>
-          <Text>{course.schedulers.map((scheduler) => scheduler.name)}</Text>
+          <Duration events={course.events} />
         </CourseItem>
       </VStack>
     </Box>
