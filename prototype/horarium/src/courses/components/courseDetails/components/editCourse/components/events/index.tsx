@@ -8,7 +8,7 @@ type Props = {
 }
 
 export const Events = ({ events }: Props) => {
-  const course_events = events.map((event, index) => <EventCard event={event} />)
+  const course_events = events.map((event, index) => <EventCard key={index} event={event} />)
   return (
     <Wrap
       direction='row'

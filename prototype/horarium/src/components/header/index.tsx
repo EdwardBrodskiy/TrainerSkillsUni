@@ -13,7 +13,7 @@ export const Header = () => {
 
   const { colorMode } = useColorMode()
   const bgColor = { light: 'gray.200', dark: 'gray.700' }
-  let pageLogo = colorMode === 'light' ? logo : logoDark
+  const pageLogo = { light: logo, dark: logoDark }
 
   return (
     <Box h='4rem'>
@@ -32,7 +32,7 @@ export const Header = () => {
         <Flex align='center' justifyContent='space-between' w='100%' h='100%'>
           <HStack spacing={10} alignContent='baseline'>
             <Link to='/courses'>
-              <Image alt='logo' src={pageLogo} height='3.5rem' />
+              <Image alt='logo' src={pageLogo[colorMode]} fallbackSrc={logoDark} height='3.5rem' />
             </Link>
           </HStack>
 

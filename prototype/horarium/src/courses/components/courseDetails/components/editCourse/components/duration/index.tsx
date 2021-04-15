@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Box } from '@chakra-ui/react'
+import { Text, Box, Alert, AlertIcon } from '@chakra-ui/react'
 import { CalendarEvent } from '../../../../../../../types'
 import dayjs from 'dayjs'
 
@@ -8,16 +8,17 @@ type Props = {
 }
 
 export const Duration = ({ events }: Props) => {
-  if(events[0] !== undefined) {
-    const startTime = dayjs(events[0].start_time).unix()
-    const endTime = dayjs(events[events.length-1].end_time).unix()
-    const duration = Math.floor((endTime - startTime) / 3600)
-    return (
-      <Text>{duration} h</Text>
-    )
+  if (events.length > 0) {
+    const minStartTime = Math.min(...events.map((event) => dayjs(event.start_time).unix()))
+    const endTime = Math.max(...events.map((event) => dayjs(event.end_time).unix()))
+    const duration = Math.floor((endTime - minStartTime) / 3600)
+    return <Text>{duration} h</Text>
   } else {
     return (
-      <Text>Course currently does not have any events</Text>
+      <Alert status='warning'>
+        <AlertIcon />
+        Course currently does not have any events
+      </Alert>
     )
   }
 }
