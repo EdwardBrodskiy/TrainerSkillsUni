@@ -34,7 +34,6 @@ export const AddCourse = () => {
   const [ASDF, setASDF] = useState<Boolean>(false)
   const [HJKL, setHJKL] = useState<Boolean>(false)
 
-
   const initialState: FormData = {
     name: { value: '', error: false, touched: false },
     module: { value: '', error: false, touched: true },
@@ -71,7 +70,7 @@ export const AddCourse = () => {
   const handleGroups = () => {
     const groups: Group[] = []
     if (EECS) groups.push({ name: 'EECS', consultants: [] })
-    if (ASDF) groups.push({ name: 'ASDF', consultants: [] }) 
+    if (ASDF) groups.push({ name: 'ASDF', consultants: [] })
     if (HJKL) groups.push({ name: 'HJKL', consultants: [] })
     return groups
   }

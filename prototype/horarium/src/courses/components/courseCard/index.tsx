@@ -20,7 +20,7 @@ export const CourseCard = ({ course, setCurrentCourse, removeCourse }: Props) =>
 
   const changeWorkingCourse = (defultCourse?: number) => {
     const session: Session = store.get('session')
-    if(defultCourse !== undefined) {
+    if (defultCourse !== undefined) {
       session.selectedCourse = Number(0)
       setCurrentCourse(0)
     } else {
@@ -31,7 +31,7 @@ export const CourseCard = ({ course, setCurrentCourse, removeCourse }: Props) =>
   }
 
   const deleteButton = () => {
-    if(isPermited(Role.Admin)) {
+    if (isPermited(Role.Admin)) {
       return (
         <IconButton
           aria-label='Remove Course'

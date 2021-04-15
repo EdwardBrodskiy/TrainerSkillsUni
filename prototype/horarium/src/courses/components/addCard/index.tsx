@@ -16,7 +16,7 @@ export const AddCard = ({ setCurrentCourse }: Props) => {
       height={20}
       fontSize={36}
       textAlign={'center'}
-      onClick={event => setCurrentCourse(null)}
+      onClick={(event) => setCurrentCourse(null)}
     >
       +
     </Box>

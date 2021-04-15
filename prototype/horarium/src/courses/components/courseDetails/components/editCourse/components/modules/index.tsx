@@ -48,7 +48,7 @@ export const Modules = ({ modules, isEditing, setNewModule }: Props) => {
       <Editable
         onSubmit={() => setNewModule(tempModule)}
         onChange={(value) => setTempModule(value)}
-        defaultValue={modules} 
+        defaultValue={modules}
         isPreviewFocusable={false}
       >
         <EditablePreview />

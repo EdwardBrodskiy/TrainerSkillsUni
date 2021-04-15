@@ -63,7 +63,7 @@ export const EditCourse = ({ course }: Props) => {
   }
 
   const showCalendar = () => {
-    if(!isEditing){
+    if (!isEditing) {
       return (
         <Link as={ReactLink} to={'/home'}>
           <Button colorScheme='green' variant='solid'>

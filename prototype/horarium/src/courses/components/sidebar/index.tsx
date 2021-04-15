@@ -13,7 +13,6 @@ type Props = {
 }
 
 export const Sidebar = ({ courses, setCurrentCourse }: Props) => {
-  
   const removeCourse = () => {
     let counter = 0
     const courses: Course[] = store.get('courses')
@@ -26,17 +25,15 @@ export const Sidebar = ({ courses, setCurrentCourse }: Props) => {
   }
 
   const addCard = () => {
-    if(isPermited(Role.Scheduler)) {
-      return (
-        <AddCard setCurrentCourse={setCurrentCourse} />
-      )
-    } 
+    if (isPermited(Role.Scheduler)) {
+      return <AddCard setCurrentCourse={setCurrentCourse} />
+    }
   }
 
   const courseCards = courses.map((course, index) => (
-    <CourseCard 
+    <CourseCard
       key={index}
-      course={course} 
+      course={course}
       setCurrentCourse={setCurrentCourse}
       removeCourse={removeCourse}
     />
