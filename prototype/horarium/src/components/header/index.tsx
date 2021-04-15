@@ -1,13 +1,16 @@
 import React from 'react'
 import { Box, Flex, useColorMode, Image, HStack } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
+import { Link, useRouteMatch } from 'react-router-dom'
 import { DarkModeToggle } from '../DarkMode'
+import { MatchParams } from '../../types'
 import logo from '../../images/logo.png'
 import logoDark from '../../images/logoDark.png'
 import { isAuth } from '../../auth'
 import { UserInfo } from './components/userInfo'
 
 export const Header = () => {
+  const match = useRouteMatch<MatchParams>()
+
   const { colorMode } = useColorMode()
   const bgColor = { light: 'gray.200', dark: 'gray.700' }
   const pageLogo = { light: logo, dark: logoDark }

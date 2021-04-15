@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Alert, AlertIcon } from '@chakra-ui/react'
+import { Text, Box, Alert, AlertIcon } from '@chakra-ui/react'
 import { CalendarEvent } from '../../../../../../../types'
 import dayjs from 'dayjs'
 

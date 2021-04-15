@@ -1,6 +1,6 @@
-import React from 'react'
 import { Box } from '@chakra-ui/react'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import React from 'react'
+import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
 import { isAuth } from './auth'
 import { Header } from './components/header'
 import { Home } from './home'
@@ -14,6 +14,7 @@ export type MatchParams = {
 }
 
 const Routes = () => {
+  const match = useRouteMatch<MatchParams>()
   return (
     <Box bgGradient='linear(to-r, blue.200, grey.500)'>
       <Header />
